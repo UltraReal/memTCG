@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotions - MemeTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <style>
+        /* Additional styles for promotions page */
+        .promotions-section {
+            padding: 60px 0;
+            background-color: var(--primary-light);
+        }
+        
+        .promo-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--gray);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .promo-tab {
+            padding: 15px 25px;
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-dark);
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        
+        .promo-tab:hover {
+            color: var(--primary-color);
+        }
+        
+        .promo-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .promo-content {
+            display: none;
+        }
+        
+        .promo-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .promo-banner {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--light-color);
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .promo-banner-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .promo-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .promo-banner p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        .promo-banner .btn {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 30px;
+        }
+        
+        .promo-banner .btn:hover {
+            background-color: var(--gray-light);
+            transform: translateY(-3px);
+        }
+        
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .promo-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .promo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.2);
+        }
+        
+        .promo-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .promo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .promo-card:hover .promo-image img {
+            transform: scale(1.05);
+        }
+        
+        .promo-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .promo-info {
+            padding: 20px;
+        }
+        
+        .promo-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .promo-description {
+            color: var(--gray-dark);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .promo-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray-dark);
+            margin-right: 10px;
+        }
+        
+        .discount-price {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .discount-percentage {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .promo-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .promo-actions .btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .promo-timer {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--gray-light);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .promo-timer i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+        
+        .bundle-items {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .bundle-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .bundle-item-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        
+        .bundle-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .bundle-item-title {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+        
+        .bundle-savings {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .coupon-code {
+            background-color: var(--gray-light);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code {
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .copy-btn {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .clearance-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--danger-color);
+            color: var(--light-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .stock-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .stock-bar {
+            height: 6px;
+            background-color: var(--gray);
+            border-radius: 3px;
+            flex-grow: 1;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+        
+        .stock-progress {
+            height: 100%;
+            background-color: var(--danger-color);
+            width: 30%; /* Adjust based on actual stock */
+        }
+        
+        .low-stock {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .promo-tabs {
+                justify-content: flex-start;
+            }
+            
+            .promo-tab {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html" class="active">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Promotions</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li>Promotions</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="promotions-section">
+        <div class="container">
+            <div class="promo-banner">
+                <div class="promo-banner-content">
+                    <h2>Holiday Special: 20% Off All Booster Packs</h2>
+                    <p>Celebrate the holiday season with our special discount on all booster packs. Limited time offer - ends December 31st!</p>
+                    <a href="#" class="btn">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="promo-tabs">
+                <button class="promo-tab active" data-tab="all">All Promotions</button>
+                <button class="promo-tab" data-tab="sale">Sale Items</button>
+                <button class="promo-tab" data-tab="clearance">Clearance</button>
+                <button class="promo-tab" data-tab="bundle">Bundle Deals</button>
+                <button class="promo-tab" data-tab="coupon">Coupon Codes</button>
+            </div>
+            
+            <!-- All Promotions Tab -->
+            <div class="promo-content active" id="all">
+                <div class="promo-grid">
+                    <!-- Sale Item 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/charizard-vmax.jpg" alt="Charizard VMAX">
+                            <div class="promo-badge">20% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Charizard VMAX</h3>
+                            <p class="promo-description">One of the most powerful and sought-after cards in the current meta. Limited stock available!</p>
+                            <div class="promo-price">
+                                <span class="original-price">€89.99</span>
+                                <span class="discount-price">€71.99</span>
+                                <span class="discount-percentage">-20%</span>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Ends in:</span>
+                                <span class="countdown">3 days, 8 hours</span>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p1" data-name="Charizard VMAX" data-price="71.99" data-image="images/promotions/charizard-vmax.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clearance Item -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/sword-shield-etb.jpg" alt="Sword & Shield Elite Trainer Box">
+                            <div class="clearance-tag">CLEARANCE</div>
+                            <div class="promo-badge">40% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Sword & Shield Elite Trainer Box</h3>
+                            <p class="promo-description">Last chance to get this Elite Trainer Box from the Sword & Shield base set. Includes 8 booster packs and accessories.</p>
+                            <div class="promo-price">
+                                <span class="original-price">€49.99</span>
+                                <span class="discount-price">€29.99</span>
+                                <span class="discount-percentage">-40%</span>
+                            </div>
+                            <div class="stock-info">
+                                <span class="low-stock">Only 5 left!</span>
+                                <div class="stock-bar">
+                                    <div class="stock-progress"></div>
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p2" data-name="Sword & Shield Elite Trainer Box" data-price="29.99" data-image="images/promotions/sword-shield-etb.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bundle Deal -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/starter-bundle.jpg" alt="Starter Bundle">
+                            <div class="promo-badge">BUNDLE</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Starter Bundle</h3>
+                            <p class="promo-description">Perfect for beginners! Get everything you need to start playing the Pokémon TCG.</p>
+                            <div class="promo-price">
+                                <span class="discount-price">€39.99</span>
+                                <span class="discount-percentage">SAVE €15</span>
+                            </div>
+                            <div class="bundle-items">
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/starter-deck.jpg" alt="Starter Deck">
+                                    </div>
+                                    <span class="bundle-item-title">Starter Deck</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/booster-packs.jpg" alt="3x Booster Packs">
+                                    </div>
+                                    <span class="bundle-item-title">3x Booster Packs</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/card-sleeves.jpg" alt="Card Sleeves">
+                                    </div>
+                                    <span class="bundle-item-title">Card Sleeves</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/playmat.jpg" alt="Playmat">
+                                    </div>
+                                    <span class="bundle-item-title">Playmat</span>
+                                </div>
+                                <div class="bundle-savings">
+                                    <i class="fas fa-tags"></i> Save €15 compared to buying separately
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p3" data-name="Starter Bundle" data-price="39.99" data-image="images/promotions/starter-bundle.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Coupon Promo -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/coupon-promo.jpg" alt="New Customer Discount">
+                            <div class="promo-badge">COUPON</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">New Customer Discount</h3>
+                            <p class="promo-description">First time shopping with us? Use this coupon code to get 10% off your first order over €50.</p>
+                            <div class="coupon-code">
+                                <span class="code">WELCOME10</span>
+                                <button class="copy-btn" onclick="copyCode('WELCOME10')">Copy</button>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Valid until:</span>
+                                <span>December 31, 2023</span>
+                            </div>
+                            <div class="promo-actions">
+                                <a href="shop.html" class="btn">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sale Item 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/pikachu-vmax.jpg" alt="Pikachu VMAX">
+                            <div class="promo-badge">15% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Pikachu VMAX</h3>
+                            <p class="promo-description">The iconic Pikachu in its powerful VMAX form. A must-have for any collector!</p>
+                            <div class="promo-price">
+                                <span class="original-price">€49.99</span>
+                                <span class="discount-price">€42.49</span>
+                                <span class="discount-percentage">-15%</span>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Ends in:</span>
+                                <span class="countdown">5 days, 12 hours</span>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p4" data-name="Pikachu VMAX" data-price="42.49" data-image="images/promotions/pikachu-vmax.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clearance Item 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/battle-styles-booster.jpg" alt="Battle Styles Booster Box">
+                            <div class="clearance-tag">CLEARANCE</div>
+                            <div class="promo-badge">35% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Battle Styles Booster Box</h3>
+                            <p class="promo-description">Full booster box containing 36 Battle Styles packs. Great value for collectors and players!</p>
+                            <div class="promo-price">
+                                <span class="original-price">€144.99</span>
+                                <span class="discount-price">€94.24</span>
+                                <span class="discount-percentage">-35%</span>
+                            </div>
+                            <div class="stock-info">
+                                <span class="low-stock">Only 3 left!</span>
+                                <div class="stock-bar">
+                                    <div class="stock-progress" style="width: 15%"></div>
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p5" data-name="Battle Styles Booster Box" data-price="94.24" data-image="images/promotions/battle-styles-booster.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sale Items Tab -->
+            <div class="promo-content" id="sale">
+                <div class="promo-grid">
+                    <!-- Sale Item 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/charizard-vmax.jpg" alt="Charizard VMAX">
+                            <div class="promo-badge">20% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Charizard VMAX</h3>
+                            <p class="promo-description">One of the most powerful and sought-after cards in the current meta. Limited stock available!</p>
+                            <div class="promo-price">
+                                <span class="original-price">€89.99</span>
+                                <span class="discount-price">€71.99</span>
+                                <span class="discount-percentage">-20%</span>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Ends in:</span>
+                                <span class="countdown">3 days, 8 hours</span>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p1" data-name="Charizard VMAX" data-price="71.99" data-image="images/promotions/charizard-vmax.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sale Item 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/pikachu-vmax.jpg" alt="Pikachu VMAX">
+                            <div class="promo-badge">15% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Pikachu VMAX</h3>
+                            <p class="promo-description">The iconic Pikachu in its powerful VMAX form. A must-have for any collector!</p>
+                            <div class="promo-price">
+                                <span class="original-price">€49.99</span>
+                                <span class="discount-price">€42.49</span>
+                                <span class="discount-percentage">-15%</span>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Ends in:</span>
+                                <span class="countdown">5 days, 12 hours</span>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p4" data-name="Pikachu VMAX" data-price="42.49" data-image="images/promotions/pikachu-vmax.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sale Item 3 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/mewtwo-gx.jpg" alt="Mewtwo GX">
+                            <div class="promo-badge">25% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Mewtwo GX</h3>
+                            <p class="promo-description">The psychic powerhouse Mewtwo in its GX form. Excellent addition to any psychic-type deck.</p>
+                            <div class="promo-price">
+                                <span class="original-price">€39.99</span>
+                                <span class="discount-price">€29.99</span>
+                                <span class="discount-percentage">-25%</span>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Ends in:</span>
+                                <span class="countdown">7 days, 3 hours</span>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p6" data-name="Mewtwo GX" data-price="29.99" data-image="images/promotions/mewtwo-gx.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Clearance Tab -->
+            <div class="promo-content" id="clearance">
+                <div class="promo-grid">
+                    <!-- Clearance Item 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/sword-shield-etb.jpg" alt="Sword & Shield Elite Trainer Box">
+                            <div class="clearance-tag">CLEARANCE</div>
+                            <div class="promo-badge">40% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Sword & Shield Elite Trainer Box</h3>
+                            <p class="promo-description">Last chance to get this Elite Trainer Box from the Sword & Shield base set. Includes 8 booster packs and accessories.</p>
+                            <div class="promo-price">
+                                <span class="original-price">€49.99</span>
+                                <span class="discount-price">€29.99</span>
+                                <span class="discount-percentage">-40%</span>
+                            </div>
+                            <div class="stock-info">
+                                <span class="low-stock">Only 5 left!</span>
+                                <div class="stock-bar">
+                                    <div class="stock-progress"></div>
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p2" data-name="Sword & Shield Elite Trainer Box" data-price="29.99" data-image="images/promotions/sword-shield-etb.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clearance Item 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/battle-styles-booster.jpg" alt="Battle Styles Booster Box">
+                            <div class="clearance-tag">CLEARANCE</div>
+                            <div class="promo-badge">35% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Battle Styles Booster Box</h3>
+                            <p class="promo-description">Full booster box containing 36 Battle Styles packs. Great value for collectors and players!</p>
+                            <div class="promo-price">
+                                <span class="original-price">€144.99</span>
+                                <span class="discount-price">€94.24</span>
+                                <span class="discount-percentage">-35%</span>
+                            </div>
+                            <div class="stock-info">
+                                <span class="low-stock">Only 3 left!</span>
+                                <div class="stock-bar">
+                                    <div class="stock-progress" style="width: 15%"></div>
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p5" data-name="Battle Styles Booster Box" data-price="94.24" data-image="images/promotions/battle-styles-booster.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Clearance Item 3 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/vivid-voltage-booster.jpg" alt="Vivid Voltage Booster Box">
+                            <div class="clearance-tag">CLEARANCE</div>
+                            <div class="promo-badge">30% OFF</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Vivid Voltage Booster Box</h3>
+                            <p class="promo-description">Full booster box containing 36 Vivid Voltage packs. Features the popular Rainbow Rare Pikachu VMAX!</p>
+                            <div class="promo-price">
+                                <span class="original-price">€144.99</span>
+                                <span class="discount-price">€101.49</span>
+                                <span class="discount-percentage">-30%</span>
+                            </div>
+                            <div class="stock-info">
+                                <span class="low-stock">Only 7 left!</span>
+                                <div class="stock-bar">
+                                    <div class="stock-progress" style="width: 35%"></div>
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p7" data-name="Vivid Voltage Booster Box" data-price="101.49" data-image="images/promotions/vivid-voltage-booster.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bundle Deals Tab -->
+            <div class="promo-content" id="bundle">
+                <div class="promo-grid">
+                    <!-- Bundle Deal 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/starter-bundle.jpg" alt="Starter Bundle">
+                            <div class="promo-badge">BUNDLE</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Starter Bundle</h3>
+                            <p class="promo-description">Perfect for beginners! Get everything you need to start playing the Pokémon TCG.</p>
+                            <div class="promo-price">
+                                <span class="discount-price">€39.99</span>
+                                <span class="discount-percentage">SAVE €15</span>
+                            </div>
+                            <div class="bundle-items">
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/starter-deck.jpg" alt="Starter Deck">
+                                    </div>
+                                    <span class="bundle-item-title">Starter Deck</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/booster-packs.jpg" alt="3x Booster Packs">
+                                    </div>
+                                    <span class="bundle-item-title">3x Booster Packs</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/card-sleeves.jpg" alt="Card Sleeves">
+                                    </div>
+                                    <span class="bundle-item-title">Card Sleeves</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/playmat.jpg" alt="Playmat">
+                                    </div>
+                                    <span class="bundle-item-title">Playmat</span>
+                                </div>
+                                <div class="bundle-savings">
+                                    <i class="fas fa-tags"></i> Save €15 compared to buying separately
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p3" data-name="Starter Bundle" data-price="39.99" data-image="images/promotions/starter-bundle.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bundle Deal 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/collector-bundle.jpg" alt="Collector's Bundle">
+                            <div class="promo-badge">BUNDLE</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Collector's Bundle</h3>
+                            <p class="promo-description">A premium bundle for serious collectors. Get the latest Elite Trainer Box and more!</p>
+                            <div class="promo-price">
+                                <span class="discount-price">€79.99</span>
+                                <span class="discount-percentage">SAVE €25</span>
+                            </div>
+                            <div class="bundle-items">
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/elite-trainer-box.jpg" alt="Elite Trainer Box">
+                                    </div>
+                                    <span class="bundle-item-title">Elite Trainer Box</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/premium-binder.jpg" alt="Premium Binder">
+                                    </div>
+                                    <span class="bundle-item-title">Premium Binder</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/card-sleeves-premium.jpg" alt="Premium Card Sleeves">
+                                    </div>
+                                    <span class="bundle-item-title">Premium Card Sleeves</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/promo-card.jpg" alt="Exclusive Promo Card">
+                                    </div>
+                                    <span class="bundle-item-title">Exclusive Promo Card</span>
+                                </div>
+                                <div class="bundle-savings">
+                                    <i class="fas fa-tags"></i> Save €25 compared to buying separately
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p8" data-name="Collector's Bundle" data-price="79.99" data-image="images/promotions/collector-bundle.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bundle Deal 3 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/booster-bundle.jpg" alt="Booster Bundle">
+                            <div class="promo-badge">BUNDLE</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Booster Bundle</h3>
+                            <p class="promo-description">Get a variety of booster packs from different sets at a discounted price!</p>
+                            <div class="promo-price">
+                                <span class="discount-price">€24.99</span>
+                                <span class="discount-percentage">SAVE €10</span>
+                            </div>
+                            <div class="bundle-items">
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/scarlet-violet-pack.jpg" alt="Scarlet & Violet Pack">
+                                    </div>
+                                    <span class="bundle-item-title">2x Scarlet & Violet Packs</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/crown-zenith-pack.jpg" alt="Crown Zenith Pack">
+                                    </div>
+                                    <span class="bundle-item-title">2x Crown Zenith Packs</span>
+                                </div>
+                                <div class="bundle-item">
+                                    <div class="bundle-item-image">
+                                        <img src="images/promotions/silver-tempest-pack.jpg" alt="Silver Tempest Pack">
+                                    </div>
+                                    <span class="bundle-item-title">2x Silver Tempest Packs</span>
+                                </div>
+                                <div class="bundle-savings">
+                                    <i class="fas fa-tags"></i> Save €10 compared to buying separately
+                                </div>
+                            </div>
+                            <div class="promo-actions">
+                                <button class="btn add-to-cart" data-id="p9" data-name="Booster Bundle" data-price="24.99" data-image="images/promotions/booster-bundle.jpg">Add to Cart</button>
+                                <a href="#" class="btn btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Coupon Codes Tab -->
+            <div class="promo-content" id="coupon">
+                <div class="promo-grid">
+                    <!-- Coupon 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/coupon-promo.jpg" alt="New Customer Discount">
+                            <div class="promo-badge">COUPON</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">New Customer Discount</h3>
+                            <p class="promo-description">First time shopping with us? Use this coupon code to get 10% off your first order over €50.</p>
+                            <div class="coupon-code">
+                                <span class="code">WELCOME10</span>
+                                <button class="copy-btn" onclick="copyCode('WELCOME10')">Copy</button>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Valid until:</span>
+                                <span>December 31, 2023</span>
+                            </div>
+                            <div class="promo-actions">
+                                <a href="shop.html" class="btn">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Coupon 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/free-shipping.jpg" alt="Free Shipping">
+                            <div class="promo-badge">COUPON</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Free Shipping</h3>
+                            <p class="promo-description">Get free shipping on any order over €75. No minimum purchase required!</p>
+                            <div class="coupon-code">
+                                <span class="code">FREESHIP75</span>
+                                <button class="copy-btn" onclick="copyCode('FREESHIP75')">Copy</button>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Valid until:</span>
+                                <span>January 15, 2024</span>
+                            </div>
+                            <div class="promo-actions">
+                                <a href="shop.html" class="btn">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Coupon 3 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="images/promotions/holiday-special.jpg" alt="Holiday Special">
+                            <div class="promo-badge">COUPON</div>
+                        </div>
+                        <div class="promo-info">
+                            <h3 class="promo-title">Holiday Special</h3>
+                            <p class="promo-description">Celebrate the holidays with an extra 15% off all Elite Trainer Boxes!</p>
+                            <div class="coupon-code">
+                                <span class="code">HOLIDAY15</span>
+                                <button class="copy-btn" onclick="copyCode('HOLIDAY15')">Copy</button>
+                            </div>
+                            <div class="promo-timer">
+                                <span><i class="fas fa-clock"></i> Valid until:</span>
+                                <span>December 25, 2023</span>
+                            </div>
+                            <div class="promo-actions">
+                                <a href="shop.html?category=elite-boxes" class="btn">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Join Our Newsletter</h2>
+                <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                    </ul>
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.svg" alt="Payment Methods">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Tab functionality
+        const tabs = document.querySelectorAll('.promo-tab');
+        const tabContents = document.querySelectorAll('.promo-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all tab contents
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Show the corresponding tab content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // URL parameter handling for direct tab access
+        function handleUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            
+            if (type) {
+                // Find the tab with the matching data-tab attribute
+                const tab = document.querySelector(`.promo-tab[data-tab="${type}"]`);
+                if (tab) {
+                    // Trigger a click on the tab
+                    tab.click();
+                }
+            }
+        }
+        
+        // Run on page load
+        window.addEventListener('DOMContentLoaded', handleUrlParams);
+        
+        // Copy coupon code functionality
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                // Show success message
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.backgroundColor = '#28a745';
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.backgroundColor = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+

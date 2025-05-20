@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Card Details - MemTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile-new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script-new.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <script src="js/view-card.js" defer></script>
+    <script src="js/cart-sidebar.js" defer></script>
+    <style>
+        /* Card Details Page Styles */
+        .card-details-container {
+            display: flex;
+            gap: 50px;
+            padding: 60px 0;
+        }
+        
+        .card-image-container {
+            flex: 1;
+            max-width: 500px;
+        }
+        
+        .card-main-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+        
+        .card-thumbnails {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .card-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .card-thumbnail.active {
+            border-color: var(--primary-color);
+        }
+        
+        .card-info {
+            flex: 1;
+        }
+        
+        .card-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .card-price {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .card-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-rating i {
+            color: var(--accent-color);
+            margin-right: 2px;
+        }
+        
+        .card-rating span {
+            margin-left: 10px;
+            color: var(--gray-dark);
+        }
+        
+        .card-availability {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: var(--success-color);
+            color: white;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .card-availability.low-stock {
+            background-color: var(--warning-color);
+        }
+        
+        .card-availability.out-of-stock {
+            background-color: var(--danger-color);
+        }
+        
+        .card-description {
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .card-meta {
+            margin-bottom: 30px;
+        }
+        
+        .card-meta-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .card-meta-label {
+            width: 120px;
+            font-weight: 600;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--light-color);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            height: 40px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .add-to-cart-btn {
+            flex-grow: 1;
+        }
+        
+        .wishlist-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .wishlist-btn:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .card-tabs {
+            margin-top: 60px;
+        }
+        
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid var(--gray);
+            margin-bottom: 30px;
+        }
+        
+        .tab-btn {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+            line-height: 1.6;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .related-cards {
+            margin-top: 80px;
+        }
+        
+        .related-cards h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .related-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .card-details-container {
+                flex-direction: column;
+            }
+            
+            .card-image-container {
+                max-width: 100%;
+            }
+            
+            .related-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .card-actions {
+                flex-direction: column;
+            }
+            
+            .related-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Card Details</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                    <li id="card-name">Charizard VMAX</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="card-details-section">
+        <div class="container">
+            <div class="card-details-container">
+                <div class="card-image-container">
+                    <img src="images/products/charizard-vmax.jpg" alt="Charizard VMAX" class="card-main-image" id="main-card-image">
+                    <div class="card-thumbnails">
+                        <img src="images/products/charizard-vmax.jpg" alt="Charizard VMAX Front" class="card-thumbnail active" onclick="changeImage(this, 'images/products/charizard-vmax.jpg')">
+                        <img src="images/products/charizard-vmax-back.jpg" alt="Charizard VMAX Back" class="card-thumbnail" onclick="changeImage(this, 'images/products/charizard-vmax-back.jpg')">
+                        <img src="images/products/charizard-vmax-alt.jpg" alt="Charizard VMAX Alternative" class="card-thumbnail" onclick="changeImage(this, 'images/products/charizard-vmax-alt.jpg')">
+                    </div>
+                </div>
+                
+                <div class="card-info">
+                    <h1 class="card-title" id="card-title">Charizard VMAX</h1>
+                    <p class="card-price" id="card-price">€59.99</p>
+                    
+                    <div class="card-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(42 reviews)</span>
+                    </div>
+                    
+                    <div class="card-availability">In Stock (12 available)</div>
+                    
+                    <div class="card-description">
+                        <p>The Charizard VMAX is a powerful Fire-type Pokémon card from the Sword & Shield series. This card features stunning artwork and is highly sought after by collectors. With its impressive attack power and VMAX evolution mechanic, it's a valuable addition to any competitive deck or collection.</p>
+                    </div>
+                    
+                    <div class="card-meta">
+                        <div class="card-meta-item">
+                            <div class="card-meta-label">Card Number:</div>
+                            <div class="card-meta-value">020/189</div>
+                        </div>
+                        <div class="card-meta-item">
+                            <div class="card-meta-label">Rarity:</div>
+                            <div class="card-meta-value">Ultra Rare</div>
+                        </div>
+                        <div class="card-meta-item">
+                            <div class="card-meta-label">Type:</div>
+                            <div class="card-meta-value">Fire</div>
+                        </div>
+                        <div class="card-meta-item">
+                            <div class="card-meta-label">Set:</div>
+                            <div class="card-meta-value">Darkness Ablaze</div>
+                        </div>
+                        <div class="card-meta-item">
+                            <div class="card-meta-label">Release Date:</div>
+                            <div class="card-meta-value">August 14, 2020</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decrementQuantity()">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input" id="quantity-input">
+                            <button class="quantity-btn" onclick="incrementQuantity()">+</button>
+                        </div>
+                        <button class="btn add-to-cart-btn" id="add-to-cart-btn" data-id="1" data-name="Charizard VMAX" data-price="59.99" data-image="images/products/charizard-vmax.jpg">Add to Cart</button>
+                        <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-tabs">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" onclick="openTab(event, 'description')">Description</button>
+                    <button class="tab-btn" onclick="openTab(event, 'details')">Card Details</button>
+                    <button class="tab-btn" onclick="openTab(event, 'reviews')">Reviews (42)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'shipping')">Shipping & Returns</button>
+                </div>
+                
+                <div id="description" class="tab-content active">
+                    <p>The Charizard VMAX is a powerful Fire-type Pokémon card from the Sword & Shield series. This card features stunning artwork and is highly sought after by collectors. With its impressive attack power and VMAX evolution mechanic, it's a valuable addition to any competitive deck or collection.</p>
+                    <p>This card is part of the Darkness Ablaze expansion and features the VMAX evolution mechanic, which allows Charizard to reach its Gigantamax form. The card's artwork showcases Charizard in its imposing Gigantamax form, with flames erupting from its body.</p>
+                    <p>As a VMAX Pokémon, this card offers increased HP and powerful attacks, making it a formidable opponent in battle. The card's rarity and popularity among fans make it a valuable collector's item as well.</p>
+                </div>
+                
+                <div id="details" class="tab-content">
+                    <h3>Card Specifications</h3>
+                    <ul>
+                        <li><strong>Card Name:</strong> Charizard VMAX</li>
+                        <li><strong>Card Number:</strong> 020/189</li>
+                        <li><strong>Rarity:</strong> Ultra Rare</li>
+                        <li><strong>Card Type:</strong> Fire</li>
+                        <li><strong>HP:</strong> 330</li>
+                        <li><strong>Stage:</strong> VMAX Evolution</li>
+                        <li><strong>Evolves From:</strong> Charizard V</li>
+                        <li><strong>Retreat Cost:</strong> 3 Energy</li>
+                    </ul>
+                    
+                    <h3>Attacks</h3>
+                    <ul>
+                        <li><strong>G-Max Wildfire:</strong> 300 damage. Discard 3 Energy from this Pokémon.</li>
+                    </ul>
+                    
+                    <h3>Card Condition</h3>
+                    <p>All our single cards are guaranteed to be in Near Mint (NM) condition unless otherwise stated. Cards are sleeved and shipped in protective packaging to ensure they arrive in the same condition.</p>
+                </div>
+                
+                <div id="reviews" class="tab-content">
+                    <h3>Customer Reviews</h3>
+                    <div class="review">
+                        <div class="review-header">
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="review-author">John D. - May 15, 2023</div>
+                        </div>
+                        <div class="review-content">
+                            <p>Excellent card in perfect condition! Shipping was fast and the card was well protected. Very happy with my purchase.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="review">
+                        <div class="review-header">
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <div class="review-author">Sarah M. - April 22, 2023</div>
+                        </div>
+                        <div class="review-content">
+                            <p>Card arrived in great condition. The corners were perfect and the centering was good. Would definitely buy from this seller again.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="review">
+                        <div class="review-header">
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <div class="review-author">Mike T. - March 10, 2023</div>
+                        </div>
+                        <div class="review-content">
+                            <p>Great addition to my collection. The card looks even better in person than in the photos. Very satisfied with this purchase.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="shipping" class="tab-content">
+                    <h3>Shipping Information</h3>
+                    <p>We ship all orders within 1-2 business days of payment confirmation. Single cards are shipped in a penny sleeve and toploader, secured in a team bag, and placed in a padded envelope for maximum protection.</p>
+                    
+                    <h4>Shipping Options:</h4>
+                    <ul>
+                        <li><strong>Standard Shipping:</strong> €2.99 (3-5 business days)</li>
+                        <li><strong>Express Shipping:</strong> €5.99 (1-2 business days)</li>
+                        <li><strong>Free Shipping:</strong> On all orders over €50</li>
+                    </ul>
+                    
+                    <h3>Return Policy</h3>
+                    <p>If you're not completely satisfied with your purchase, you may return it within 14 days of delivery for a full refund or exchange. Please note that the item must be returned in its original condition and packaging.</p>
+                    
+                    <p>For more information on our shipping and return policies, please visit our <a href="customer-service.html">Customer Service</a> page.</p>
+                </div>
+            </div>
+            
+            <div class="related-cards">
+                <h2>Related Cards</h2>
+                <div class="related-cards-grid">
+                    <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="fire">
+                        <div class="product-image">
+                            <img src="images/products/charizard-v.jpg" alt="Charizard V">
+                        </div>
+                        <div class="product-info">
+                            <h3>Charizard V</h3>
+                            <p class="product-price">€29.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(28)</span>
+                            </div>
+                        </div>
+                        <button class="btn add-to-cart" data-id="13" data-name="Charizard V" data-price="29.99" data-image="images/products/charizard-v.jpg">Add to Cart</button>
+                    </div>
+                    
+                    <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="fire">
+                        <div class="product-image">
+                            <img src="images/products/charizard-gx.jpg" alt="Charizard GX">
+                        </div>
+                        <div class="product-info">
+                            <h3>Charizard GX</h3>
+                            <p class="product-price">€39.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(35)</span>
+                            </div>
+                        </div>
+                        <button class="btn add-to-cart" data-id="14" data-name="Charizard GX" data-price="39.99" data-image="images/products/charizard-gx.jpg">Add to Cart</button>
+                    </div>
+                    
+                    <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="fire">
+                        <div class="product-image">
+                            <img src="images/products/reshiram-charizard.jpg" alt="Reshiram & Charizard GX">
+                        </div>
+                        <div class="product-info">
+                            <h3>Reshiram & Charizard GX</h3>
+                            <p class="product-price">€44.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(40)</span>
+                            </div>
+                        </div>
+                        <button class="btn add-to-cart" data-id="15" data-name="Reshiram & Charizard GX" data-price="44.99" data-image="images/products/reshiram-charizard.jpg">Add to Cart</button>
+                    </div>
+                    
+                    <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="fire">
+                        <div class="product-image">
+                            <img src="images/products/charizard-ex.jpg" alt="Charizard EX">
+                        </div>
+                        <div class="product-info">
+                            <h3>Charizard EX</h3>
+                            <p class="product-price">€34.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(22)</span>
+                            </div>
+                        </div>
+                        <button class="btn add-to-cart" data-id="16" data-name="Charizard EX" data-price="34.99" data-image="images/products/charizard-ex.jpg">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About MemTCG</h3>
+                    <p>Your trusted source for Pokémon TCG cards and accessories. We offer a wide selection of single cards, booster packs, and more at competitive prices.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <div class="newsletter">
+                        <h4>Subscribe to our newsletter</h4>
+                        <form>
+                            <input type="email" placeholder="Your email address">
+                            <button type="submit" class="btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemTCG. All rights reserved.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-cc-apple-pay"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

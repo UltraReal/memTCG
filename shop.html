@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shop - MemTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile-new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script-new.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <script src="js/shop.js" defer></script>
+    <script src="js/cart-sidebar.js" defer></script>
+    <style>
+        /* Additional styles for shop page */
+        .shop-container {
+            display: flex;
+            gap: 30px;
+            padding: 60px 0;
+        }
+        
+        .filters {
+            width: 250px;
+            flex-shrink: 0;
+        }
+        
+        .filter-section {
+            margin-bottom: 30px;
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .filter-section h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .filter-options label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .price-range input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+        
+        .filter-button {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .products-container {
+            flex-grow: 1;
+        }
+        
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .sort-options {
+            display: flex;
+            align-items: center;
+        }
+        
+        .sort-options select {
+            padding: 8px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        
+        .view-options {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .view-option {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .view-option.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .pagination a:hover,
+        .pagination a.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* Grid and List View Styles */
+        .products-grid.grid-view {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .products-grid.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .products-grid.list-view .product-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .products-grid.list-view .product-image {
+            width: 200px;
+            flex-shrink: 0;
+            margin-right: 30px;
+        }
+        
+        .products-grid.list-view .product-info {
+            flex-grow: 1;
+            text-align: left;
+            padding: 0;
+        }
+        
+        .products-grid.list-view .add-to-cart {
+            width: auto;
+            margin-left: auto;
+        }
+        
+        /* Grid and List View Styles */
+        .products-grid.grid-view {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .products-grid.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .products-grid.list-view .product-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .products-grid.list-view .product-image {
+            width: 200px;
+            flex-shrink: 0;
+            margin-right: 30px;
+        }
+        
+        .products-grid.list-view .product-info {
+            flex-grow: 1;
+            text-align: left;
+            padding: 0;
+        }
+        
+        .products-grid.list-view .add-to-cart {
+            width: auto;
+            margin-left: auto;
+        }
+        
+        /* Product link styles */
+        .product-info h3 a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .product-info h3 a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 992px) {
+            .shop-container {
+                flex-direction: column;
+            }
+            
+            .filters {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html" class="active">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Shop</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li>Shop</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="shop-section">
+        <div class="container">
+            <div class="shop-container">
+                <div class="filters">
+                    <div class="filter-section">
+                        <h3>Categories</h3>
+                        <div class="filter-options">
+                            <label>
+                                <input type="checkbox" name="category" value="single-cards"> Single Cards
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="booster-packs"> Booster Packs
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="elite-boxes"> Elite Trainer Boxes
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="collections"> Special Collections
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="accessories"> Accessories
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Price Range</h3>
+                        <div class="filter-options">
+                            <div class="price-range">
+                                <input type="number" placeholder="Min" min="0">
+                                <span>to</span>
+                                <input type="number" placeholder="Max" min="0">
+                            </div>
+                            <button class="btn filter-button">Apply</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Rarity</h3>
+                        <div class="filter-options">
+                            <label>
+                                <input type="checkbox" name="rarity" value="common"> Common
+                            </label>
+                            <label>
+                                <input type="checkbox" name="rarity" value="uncommon"> Uncommon
+                            </label>
+                            <label>
+                                <input type="checkbox" name="rarity" value="rare"> Rare
+                            </label>
+                            <label>
+                                <input type="checkbox" name="rarity" value="ultra-rare"> Ultra Rare
+                            </label>
+                            <label>
+                                <input type="checkbox" name="rarity" value="secret-rare"> Secret Rare
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Card Type</h3>
+                        <div class="filter-options">
+                            <label>
+                                <input type="checkbox" name="type" value="normal"> Normal
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="fire"> Fire
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="water"> Water
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="electric"> Electric
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="grass"> Grass
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="ice"> Ice
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="fighting"> Fighting
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="poison"> Poison
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="ground"> Ground
+                            </label>
+                            <label>
+                                <input type="checkbox" name="type" value="psychic"> Psychic
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="products-container">
+                    <div class="shop-header">
+                        <div class="results-count">
+                            <p>Showing 1-12 of 48 products grid-view</p>
+                        </div>
+                        <div class="sort-options" data-category="single-cards" data-rarity="ultra-rare" data-type="fire">
+                            <label for="sort">Sort by:</label>
+                            <select id="sort">
+                                <option value="popularity">Popularity</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="newest">Newest First</option>
+                            </select>
+                        </div>
+                        <div class="view-options">
+                            <div class="view-option active">
+                                <i class="fas fa-th"></i>
+                            </div>
+                            <div class="view-option">
+                                <i class="fas fa-list"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="products-grid grid-view">
+                        <!-- Product 1 -->
+                        <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="fire">
+                            <div class="product-image">
+                                <a href="view-card.html?id=1">
+                                    <img src="images/products/charizard-vmax.jpg" alt="Charizard VMAX">
+                                    <div class="product-tag">Featured</div>
+                                </a>
+                            </div>
+                            <div class="product-info" data-category="single-cards" data-rarity="ultra-rare" data-type="electric">
+                                <h3><a href="view-card.html?id=1">Charizard VMAX</a></h3>
+                                <p class="product-price">€89.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(42)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="1" data-name="Charizard VMAX" data-price="89.99" data-image="images/products/charizard-vmax.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 2 -->
+                        <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="electric">
+                            <div class="product-image">
+                                <a href="view-card.html?id=2">
+                                    <img src="images/products/pikachu-vmax.jpg" alt="Pikachu VMAX">
+                                    <div class="product-tag">New</div>
+                                </a>
+                            </div>
+                            <div class="product-info" data-category="single-cards" data-rarity="rare" data-type="psychic">
+                                <h3><a href="view-card.html?id=2">Pikachu VMAX</a></h3>
+                                <p class="product-price">€49.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(38)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="2" data-name="Pikachu VMAX" data-price="49.99" data-image="images/products/pikachu-vmax.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="product-card" data-category="single-cards" data-rarity="rare" data-type="psychic">
+                            <div class="product-image">
+                                <a href="view-card.html?id=3">
+                                    <img src="images/products/mewtwo-gx.jpg" alt="Mewtwo GX">
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <h3><a href="view-card.html?id=3">Mewtwo GX</a></h3>
+                                <p class="product-price">€39.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(27)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="3" data-name="Mewtwo GX" data-price="39.99" data-image="images/products/mewtwo-gx.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 4 -->
+                        <div class="product-card" data-category="single-cards" data-rarity="rare" data-type="normal">
+                            <div class="product-image">
+                                <a href="view-card.html?id=4">
+                                    <img src="images/products/eevee-vmax.jpg" alt="Eevee VMAX">
+                                    <div class="product-tag">Sale</div>
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <h3><a href="view-card.html?id=4">Eevee VMAX</a></h3>
+                                <p class="product-price">€29.99 <span class="original-price">€39.99</span></p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(19)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="4" data-name="Eevee VMAX" data-price="29.99" data-image="images/products/eevee-vmax.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 5 -->
+                        <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="water">
+                            <div class="product-image">
+                                <a href="view-card.html?id=5">
+                                    <img src="images/products/blastoise-vmax.jpg" alt="Blastoise VMAX">
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <h3><a href="view-card.html?id=5">Blastoise VMAX</a></h3>
+                                <p class="product-price">€59.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(23)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="5" data-name="Blastoise VMAX" data-price="59.99" data-image="images/products/blastoise-vmax.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 6 -->
+                        <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="grass">
+                            <div class="product-image">
+                                <a href="view-card.html?id=6">
+                                    <img src="images/products/venusaur-vmax.jpg" alt="Venusaur VMAX">
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <h3><a href="view-card.html?id=6">Venusaur VMAX</a></h3>
+                                <p class="product-price">€54.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(18)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="6" data-name="Venusaur VMAX" data-price="54.99" data-image="images/products/venusaur-vmax.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 7 -->
+                        <div class="product-card" data-category="booster-packs" data-rarity="common" data-type="normal">
+                            <div class="product-image" data-category="booster-packs" data-rarity="common" data-type="normal">
+                                <img src="images/products/sword-shield-booster.jpg" alt="Sword & Shield Booster Pack">
+                                <div class="product-tag">Popular</div>
+                            </div>
+                            <div class="product-info">
+                                <h3>Sword & Shield Booster Pack</h3>
+                                <p class="product-price">€4.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(67)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="7" data-name="Sword & Shield Booster Pack" data-price="4.99" data-image="images/products/sword-shield-booster.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 8 -->
+                        <div class="product-card" data-category="booster-packs" data-rarity="common" data-type="normal">
+                            <div class="product-image" data-category="elite-boxes" data-rarity="common" data-type="normal">
+                                <img src="images/products/brilliant-stars-booster.jpg" alt="Brilliant Stars Booster Pack">
+                            </div>
+                            <div class="product-info">
+                                <h3>Brilliant Stars Booster Pack</h3>
+                                <p class="product-price">€5.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(42)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="8" data-name="Brilliant Stars Booster Pack" data-price="5.99" data-image="images/products/brilliant-stars-booster.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 9 -->
+                        <div class="product-card" data-category="elite-boxes" data-rarity="common" data-type="normal">
+                            <div class="product-image" data-category="single-cards" data-rarity="ultra-rare" data-type="ghost">
+                                <img src="images/products/elite-trainer-box.jpg" alt="Elite Trainer Box">
+                            </div>
+                            <div class="product-info">
+                                <h3>Elite Trainer Box - Sword & Shield</h3>
+                                <p class="product-price">€44.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(31)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="9" data-name="Elite Trainer Box - Sword & Shield" data-price="44.99" data-image="images/products/elite-trainer-box.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 10 -->
+                        <div class="product-card" data-category="single-cards" data-rarity="ultra-rare" data-type="ghost">
+                            <div class="product-image" data-category="single-cards" data-rarity="rare" data-type="normal">
+                                <img src="images/products/gengar-vmax.jpg" alt="Gengar VMAX">
+                                <div class="product-tag">New</div>
+                            </div>
+                            <div class="product-info">
+                                <h3>Gengar VMAX</h3>
+                                <p class="product-price">€49.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(15)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="10" data-name="Gengar VMAX" data-price="49.99" data-image="images/products/gengar-vmax.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 11 -->
+                        <div class="product-card" data-category="single-cards" data-rarity="rare" data-type="normal">
+                            <div class="product-image">
+                                <img src="images/products/snorlax-vmax.jpg" alt="Snorlax VMAX">
+                            </div>
+                            <div class="product-info">
+                                <h3>Snorlax VMAX</h3>
+                                <p class="product-price">€34.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(22)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="11" data-name="Snorlax VMAX" data-price="34.99" data-image="images/products/snorlax-vmax.jpg">Add to Cart</button>
+                        </div>
+
+                        <!-- Product 12 -->
+                        <div class="product-card" data-category="collections" data-rarity="common" data-type="normal">
+                            <div class="product-image">
+                                <img src="images/products/collector-chest.jpg" alt="Collector's Chest">
+                                <div class="product-tag">Limited</div>
+                            </div>
+                            <div class="product-info">
+                                <h3>Collector's Chest - Fall 2023</h3>
+                                <p class="product-price">€29.99</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(28)</span>
+                                </div>
+                            </div>
+                            <button class="btn add-to-cart" data-id="12" data-name="Collector's Chest - Fall 2023" data-price="29.99" data-image="images/products/collector-chest.jpg">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="pagination">
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#"><i class="fas fa-angle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Join Our Newsletter</h2>
+                <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                    </ul>
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.svg" alt="Payment Methods">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+</body>
+</html>
+

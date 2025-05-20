@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MemTCG - Pokémon Cards Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile-new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script-new.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <script src="js/cart-sidebar.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Welcome to MemTCG</h1>
+                <p>Your premier destination for Pokémon cards and collectibles</p>
+                <a href="shop.html" class="btn">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-products">
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/products/charizard-vmax.jpg" alt="Charizard VMAX">
+                        <div class="product-tag">Featured</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Charizard VMAX</h3>
+                        <p class="product-price">€89.99</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(42)</span>
+                        </div>
+                    </div>
+                    <button class="btn add-to-cart" data-id="1" data-name="Charizard VMAX" data-price="89.99" data-image="images/products/charizard-vmax.jpg">Add to Cart</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/products/pikachu-vmax.jpg" alt="Pikachu VMAX">
+                        <div class="product-tag">New</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Pikachu VMAX</h3>
+                        <p class="product-price">€49.99</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(38)</span>
+                        </div>
+                    </div>
+                    <button class="btn add-to-cart" data-id="2" data-name="Pikachu VMAX" data-price="49.99" data-image="images/products/pikachu-vmax.jpg">Add to Cart</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/products/mewtwo-gx.jpg" alt="Mewtwo GX">
+                    </div>
+                    <div class="product-info">
+                        <h3>Mewtwo GX</h3>
+                        <p class="product-price">€39.99</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(27)</span>
+                        </div>
+                    </div>
+                    <button class="btn add-to-cart" data-id="3" data-name="Mewtwo GX" data-price="39.99" data-image="images/products/mewtwo-gx.jpg">Add to Cart</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/products/eevee-vmax.jpg" alt="Eevee VMAX">
+                        <div class="product-tag">Sale</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Eevee VMAX</h3>
+                        <p class="product-price">€29.99 <span class="original-price">€39.99</span></p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                            <span>(19)</span>
+                        </div>
+                    </div>
+                    <button class="btn add-to-cart" data-id="4" data-name="Eevee VMAX" data-price="29.99" data-image="images/products/eevee-vmax.jpg">Add to Cart</button>
+                </div>
+            </div>
+            <div class="view-all">
+                <a href="shop.html" class="btn btn-outline">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="categories-grid">
+                <a href="shop.html?category=single-cards" class="category-card">
+                    <img src="images/categories/single-cards.jpg" alt="Single Cards">
+                    <h3>Single Cards</h3>
+                </a>
+                <a href="shop.html?category=booster-packs" class="category-card">
+                    <img src="images/categories/booster-packs.jpg" alt="Booster Packs">
+                    <h3>Booster Packs</h3>
+                </a>
+                <a href="shop.html?category=elite-boxes" class="category-card">
+                    <img src="images/categories/elite-boxes.jpg" alt="Elite Trainer Boxes">
+                    <h3>Elite Trainer Boxes</h3>
+                </a>
+                <a href="shop.html?category=collections" class="category-card">
+                    <img src="images/categories/collections.jpg" alt="Special Collections">
+                    <h3>Special Collections</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Join Our Newsletter</h2>
+                <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                    </ul>
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.svg" alt="Payment Methods">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+</body>
+</html>
+

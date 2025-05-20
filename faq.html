@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - MemeTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <style>
+        .faq-section {
+            padding: 60px 0;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            background-color: #f5f5f5;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-question:hover {
+            background-color: #e8e8e8;
+        }
+        
+        .faq-answer {
+            padding: 20px;
+            display: none;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .faq-answer.active {
+            display: block;
+        }
+        
+        .faq-question .icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active .icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .faq-category {
+            padding: 8px 15px;
+            margin: 5px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-category:hover, .faq-category.active {
+            background-color: #0066CC;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-banner">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">FAQ</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-container">
+                <div class="faq-categories">
+                    <div class="faq-category active" data-category="all">All</div>
+                    <div class="faq-category" data-category="orders">Orders</div>
+                    <div class="faq-category" data-category="shipping">Shipping</div>
+                    <div class="faq-category" data-category="returns">Returns</div>
+                    <div class="faq-category" data-category="products">Products</div>
+                </div>
+
+                <!-- Orders FAQs -->
+                <div class="faq-item" data-category="orders">
+                    <div class="faq-question">
+                        How do I place an order?
+                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To place an order, browse our website and add the items you want to your cart. When you're ready to checkout, click on the cart icon in the top right corner and then click "Checkout". Follow the instructions to enter your shipping and payment information to complete your order.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="orders">
+                    <div class="faq-question">
+                        How can I check the status of my order?
+                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can check the status of your order by visiting the "Track Order" page and entering your order number and email address. You will also receive email updates about your order status.</p>
+                    </div>
+                </div>
+
+                <!-- Shipping FAQs -->
+                <div class="faq-item" data-category="shipping">
+                    <div class="faq-question">
+                        What shipping methods do you offer?
+                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer several shipping methods:</p>
+                        <ul>
+                            <li>Standard Shipping (3-5 business days)</li>
+                            <li>Express Shipping (1-2 business days)</li>
+                            <li>International Shipping (7-14 business days)</li>
+                        </ul>
+                        <p>Shipping costs are calculated based on your location and the weight of your order.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="shipping">
+                    <div class="faq-question">
+                        Do you ship internationally?
+                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we ship to most countries worldwide. International shipping typically takes 7-14 business days, and customs fees may apply depending on your country's regulations.</p>
+                    </div>
+                </div>
+
+                <!-- Returns FAQs -->
+                <div class="faq-item" data-category="returns">
+                    <div class="faq-question">
+                        What is your return policy?
+                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept returns within 30 days of delivery. Items must be in their original condition and packaging. Please visit our <a href="shipping.html">Shipping & Returns</a> page for more detailed information.</p>
+                    </div>
+                </div>
+
+                <!-- Products FAQs -->
+                <div class="faq-item" data-category="products">
+                    <div class="faq-question">
+                        Are your Pokémon cards authentic?
+                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, all our Pokémon cards are 100% authentic. We source our products directly from authorized distributors and manufacturers. We have a strict quality control process to ensure the authenticity of all items we sell.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="products">
+                    <div class="faq-question">
+                        How do you grade your single cards?
+                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We grade our single cards according to industry standards:</p>
+                        <ul>
+                            <li><strong>Mint (M):</strong> Perfect condition with no flaws</li>
+                            <li><strong>Near Mint (NM):</strong> Almost perfect with minimal wear</li>
+                            <li><strong>Excellent (EX):</strong> Light wear visible on close inspection</li>
+                            <li><strong>Good (G):</strong> Moderate wear, still playable</li>
+                            <li><strong>Poor (P):</strong> Heavy wear, may have creases or damage</li>
+                        </ul>
+                        <p>The condition of each card is clearly stated in the product description.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 20 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@memtcg.nl</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 memTCG. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // FAQ functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle FAQ answers
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const isActive = this.classList.contains('active');
+                    
+                    // Close all other answers
+                    document.querySelectorAll('.faq-question').forEach(q => {
+                        q.classList.remove('active');
+                        q.nextElementSibling.style.display = 'none';
+                    });
+                    
+                    // Toggle current answer
+                    if (!isActive) {
+                        this.classList.add('active');
+                        answer.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Filter FAQs by category
+            const categories = document.querySelectorAll('.faq-category');
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            categories.forEach(category => {
+                category.addEventListener('click', function() {
+                    const selectedCategory = this.getAttribute('data-category');
+                    
+                    // Update active category
+                    categories.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show/hide FAQ items based on category
+                    faqItems.forEach(item => {
+                        if (selectedCategory === 'all' || item.getAttribute('data-category') === selectedCategory) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

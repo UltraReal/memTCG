@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shopping Cart - MemTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile-new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script-new.js" defer></script>
+    <script src="js/cart.js"></script>
+    <script src="js/view-cart.js" defer></script>
+    <script src="js/cart-sidebar.js" defer></script>
+    <style>
+        /* Cart Page Styles */
+        .cart-container {
+            padding: 60px 0;
+        }
+        
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .cart-table th {
+            text-align: left;
+            padding: 15px;
+            background-color: var(--light-bg);
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .cart-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gray);
+            vertical-align: middle;
+        }
+        
+        .cart-product {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .cart-product-name {
+            font-weight: 600;
+        }
+        
+        .cart-quantity {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            overflow: hidden;
+            width: fit-content;
+        }
+        
+        .cart-quantity-btn {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--light-color);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cart-quantity-input {
+            width: 40px;
+            height: 30px;
+            border: none;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .cart-remove {
+            color: var(--danger-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .cart-remove:hover {
+            opacity: 0.8;
+        }
+        
+        .cart-summary {
+            background-color: var(--light-bg);
+            padding: 30px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .cart-summary h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .cart-summary-label {
+            font-weight: 600;
+        }
+        
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .continue-shopping {
+            display: flex;
+            align-items: center;
+        }
+        
+        .continue-shopping i {
+            margin-right: 10px;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 60px 0;
+        }
+        
+        .empty-cart i {
+            font-size: 5rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .empty-cart h2 {
+            margin-bottom: 20px;
+        }
+        
+        .empty-cart p {
+            margin-bottom: 30px;
+            color: var(--gray-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .cart-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .cart-actions {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .continue-shopping {
+                order: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li>Shopping Cart</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="cart-section">
+        <div class="container">
+            <div class="cart-container" id="cart-container">
+                <!-- Cart content will be loaded here -->
+                <!-- This will be populated by JavaScript -->
+                
+                <!-- Empty cart state (will be hidden when cart has items) -->
+                <div class="empty-cart" id="empty-cart" style="display: none;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h2>Your cart is empty</h2>
+                    <p>Looks like you haven't added any items to your cart yet.</p>
+                    <a href="shop.html" class="btn">Start Shopping</a>
+                </div>
+                
+                <!-- Cart with items (will be shown when cart has items) -->
+                <div class="cart-with-items" id="cart-with-items">
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items-table">
+                            <!-- Cart items will be added here dynamically -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="cart-summary">
+                        <h3>Cart Summary</h3>
+                        <div class="cart-summary-row">
+                            <div class="cart-summary-label">Subtotal</div>
+                            <div class="cart-summary-value" id="cart-subtotal">€0.00</div>
+                        </div>
+                        <div class="cart-summary-row">
+                            <div class="cart-summary-label">Shipping</div>
+                            <div class="cart-summary-value">€4.99</div>
+                        </div>
+                        <div class="cart-summary-row">
+                            <div class="cart-summary-label">Tax</div>
+                            <div class="cart-summary-value" id="cart-tax">€0.00</div>
+                        </div>
+                        <div class="cart-total-row">
+                            <div class="cart-total-label">Total</div>
+                            <div class="cart-total-value" id="cart-total-value">€0.00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-actions">
+                        <a href="shop.html" class="btn btn-outline continue-shopping">
+                            <i class="fas fa-arrow-left"></i> Continue Shopping
+                        </a>
+                        <a href="checkout.html" class="btn btn-primary">Proceed to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                    </ul>
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.svg" alt="Payment Methods">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemTCG. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+</body>
+</html>

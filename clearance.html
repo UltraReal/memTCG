@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clearance - MemeTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <style>
+        /* Additional styles for clearance page */
+        .clearance-section {
+            padding: 60px 0;
+            background-color: var(--primary-light);
+        }
+        
+        .clearance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .clearance-header h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .clearance-filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .clearance-filter label {
+            margin-right: 5px;
+        }
+        
+        .clearance-filter select {
+            padding: 8px 15px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            background-color: var(--light-color);
+        }
+        
+        .clearance-banner {
+            background: linear-gradient(135deg, var(--danger-color) 0%, #b30000 100%);
+            color: var(--light-color);
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .clearance-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .clearance-banner-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .clearance-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .clearance-banner p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        .clearance-banner .btn {
+            background-color: var(--light-color);
+            color: var(--danger-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 30px;
+        }
+        
+        .clearance-banner .btn:hover {
+            background-color: var(--gray-light);
+            transform: translateY(-3px);
+        }
+        
+        .clearance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .clearance-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .clearance-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.2);
+        }
+        
+        .clearance-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .clearance-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .clearance-card:hover .clearance-image img {
+            transform: scale(1.05);
+        }
+        
+        .clearance-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--danger-color);
+            color: var(--light-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .clearance-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .clearance-info {
+            padding: 20px;
+        }
+        
+        .clearance-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .clearance-description {
+            color: var(--gray-dark);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .clearance-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray-dark);
+            margin-right: 10px;
+        }
+        
+        .discount-price {
+            font-weight: 600;
+            color: var(--danger-color);
+            font-size: 1.2rem;
+        }
+        
+        .discount-percentage {
+            background-color: var(--danger-color);
+            color: var(--light-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .clearance-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .clearance-actions .btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .stock-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .stock-bar {
+            height: 6px;
+            background-color: var(--gray);
+            border-radius: 3px;
+            flex-grow: 1;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+        
+        .stock-progress {
+            height: 100%;
+            background-color: var(--danger-color);
+            width: 30%; /* Adjust based on actual stock */
+        }
+        
+        .low-stock {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .pagination a:hover,
+        .pagination a.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+        
+        .filters-sidebar {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        
+        .filter-section h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-option {
+            background-color: var(--gray-light);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-option:hover,
+        .filter-option.active {
+            background-color: var(--danger-color);
+            color: var(--light-color);
+        }
+        
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .price-range input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+        
+        .apply-filters {
+            background-color: var(--danger-color);
+            color: var(--light-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: var(--transition);
+        }
+        
+        .apply-filters:hover {
+            background-color: #b30000;
+        }
+        
+        .clearance-container {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+        
+        .clearance-content {
+            flex-grow: 1;
+        }
+        
+        @media (max-width: 992px) {
+            .clearance-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .clearance-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .clearance-filter {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .clearance-filter {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .clearance-filter select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="sale-items.html">Sale Items</a></li>
+                            <li><a href="clearance.html" class="active">Clearance</a></li>
+                            <li><a href="bundle-deals.html">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Clearance</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="promotions.html">Promotions</a></li>
+                    <li>Clearance</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="clearance-section">
+        <div class="container">
+            <div class="clearance-banner">
+                <div class="clearance-banner-content">
+                    <h2>Final Clearance: Up to 70% Off!</h2>
+                    <p>Last chance to grab these items before they're gone forever. Limited stock available, so act fast!</p>
+                    <a href="#clearance-items" class="btn">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="clearance-container">
+                <div class="sidebar">
+                    <div class="filters-sidebar">
+                        <h3>Filters</h3>
+                        
+                        <div class="filter-section">
+                            <h3>Discount</h3>
+                            <div class="filter-options">
+                                <div class="filter-option" data-filter="discount" data-value="30">30% Off</div>
+                                <div class="filter-option" data-filter="discount" data-value="40">40% Off</div>
+                                <div class="filter-option" data-filter="discount" data-value="50">50% Off</div>
+                                <div class="filter-option" data-filter="discount" data-value="60">60% Off</div>
+                                <div class="filter-option" data-filter="discount" data-value="70">70% Off</div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <h3>Category</h3>
+                            <div class="filter-options">
+                                <div class="filter-option" data-filter="category" data-value="single-cards">Single Cards</div>
+                                <div class="filter-option" data-filter="category" data-value="booster-packs">Booster Packs</div>
+                                <div class="filter-option" data-filter="category" data-value="elite-boxes">Elite Trainer Boxes</div>
+                                <div class="filter-option" data-filter="category" data-value="accessories">Accessories</div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <h3>Price Range</h3>
+                            <div class="price-range">
+                                <input type="number" id="min-price" placeholder="Min" min="0">
+                                <span>to</span>
+                                <input type="number" id="max-price" placeholder="Max" min="0">
+                            </div>
+                        </div>
+                        
+                        <button class="apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+                
+                <div class="clearance-content">
+                    <div class="clearance-header">
+                        <h2 id="clearance-items">Clearance Items</h2>
+                        <div class="clearance-filter">
+                            <label for="sort-by">Sort by:</label>
+                            <select id="sort-by">
+                                <option value="discount-high">Discount: High to Low</option>
+                                <option value="discount-low">Discount: Low to High</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="name-asc">Name: A to Z</option>
+                                <option value="name-desc">Name: Z to A</option>
+                            </select>
+                            
+                            <label for="items-per-page">Show:</label>
+                            <select id="items-per-page">
+                                <option value="12">12 per page</option>
+                                <option value="24">24 per page</option>
+                                <option value="36">36 per page</option>
+                                <option value="48">48 per page</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="clearance-grid">
+                        <!-- Clearance Item 1 -->
+                        <div class="clearance-card" data-category="elite-boxes" data-discount="40" data-price="29.99">
+                            <div class="clearance-image">
+                                <img src="images/promotions/sword-shield-etb.jpg" alt="Sword & Shield Elite Trainer Box">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">40% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Sword & Shield Elite Trainer Box</h3>
+                                <p class="clearance-description">Last chance to get this Elite Trainer Box from the Sword & Shield base set. Includes 8 booster packs and accessories.</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€49.99</span>
+                                    <span class="discount-price">€29.99</span>
+                                    <span class="discount-percentage">-40%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Only 5 left!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c1" data-name="Sword & Shield Elite Trainer Box" data-price="29.99" data-image="images/promotions/sword-shield-etb.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clearance Item 2 -->
+                        <div class="clearance-card" data-category="booster-packs" data-discount="35" data-price="94.24">
+                            <div class="clearance-image">
+                                <img src="images/promotions/battle-styles-booster.jpg" alt="Battle Styles Booster Box">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">35% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Battle Styles Booster Box</h3>
+                                <p class="clearance-description">Full booster box containing 36 Battle Styles packs. Great value for collectors and players!</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€144.99</span>
+                                    <span class="discount-price">€94.24</span>
+                                    <span class="discount-percentage">-35%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Only 3 left!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress" style="width: 15%"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c2" data-name="Battle Styles Booster Box" data-price="94.24" data-image="images/promotions/battle-styles-booster.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clearance Item 3 -->
+                        <div class="clearance-card" data-category="booster-packs" data-discount="30" data-price="101.49">
+                            <div class="clearance-image">
+                                <img src="images/promotions/vivid-voltage-booster.jpg" alt="Vivid Voltage Booster Box">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">30% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Vivid Voltage Booster Box</h3>
+                                <p class="clearance-description">Full booster box containing 36 Vivid Voltage packs. Features the popular Rainbow Rare Pikachu VMAX!</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€144.99</span>
+                                    <span class="discount-price">€101.49</span>
+                                    <span class="discount-percentage">-30%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Only 7 left!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress" style="width: 35%"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c3" data-name="Vivid Voltage Booster Box" data-price="101.49" data-image="images/promotions/vivid-voltage-booster.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clearance Item 4 -->
+                        <div class="clearance-card" data-category="single-cards" data-discount="50" data-price="24.99">
+                            <div class="clearance-image">
+                                <img src="images/promotions/blastoise-vmax.jpg" alt="Blastoise VMAX">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">50% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Blastoise VMAX</h3>
+                                <p class="clearance-description">The powerful water-type Pokémon in its VMAX form. Perfect for water-type decks!</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€49.99</span>
+                                    <span class="discount-price">€24.99</span>
+                                    <span class="discount-percentage">-50%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Only 4 left!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress" style="width: 20%"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c4" data-name="Blastoise VMAX" data-price="24.99" data-image="images/promotions/blastoise-vmax.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clearance Item 5 -->
+                        <div class="clearance-card" data-category="accessories" data-discount="60" data-price="11.99">
+                            <div class="clearance-image">
+                                <img src="images/promotions/card-sleeves-premium.jpg" alt="Premium Card Sleeves">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">60% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Premium Card Sleeves</h3>
+                                <p class="clearance-description">High-quality card sleeves featuring Charizard artwork. Pack of 65 sleeves.</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€29.99</span>
+                                    <span class="discount-price">€11.99</span>
+                                    <span class="discount-percentage">-60%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Only 8 left!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress" style="width: 40%"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c5" data-name="Premium Card Sleeves" data-price="11.99" data-image="images/promotions/card-sleeves-premium.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clearance Item 6 -->
+                        <div class="clearance-card" data-category="elite-boxes" data-discount="45" data-price="27.49">
+                            <div class="clearance-image">
+                                <img src="images/promotions/darkness-ablaze-etb.jpg" alt="Darkness Ablaze Elite Trainer Box">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">45% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Darkness Ablaze Elite Trainer Box</h3>
+                                <p class="clearance-description">Elite Trainer Box from the Darkness Ablaze expansion. Includes 8 booster packs and accessories.</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€49.99</span>
+                                    <span class="discount-price">€27.49</span>
+                                    <span class="discount-percentage">-45%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Only 2 left!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress" style="width: 10%"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c6" data-name="Darkness Ablaze Elite Trainer Box" data-price="27.49" data-image="images/promotions/darkness-ablaze-etb.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clearance Item 7 -->
+                        <div class="clearance-card" data-category="single-cards" data-discount="70" data-price="14.99">
+                            <div class="clearance-image">
+                                <img src="images/promotions/venusaur-vmax.jpg" alt="Venusaur VMAX">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">70% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Venusaur VMAX</h3>
+                                <p class="clearance-description">The grass-type powerhouse in its VMAX form. Great addition to any grass-type deck!</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€49.99</span>
+                                    <span class="discount-price">€14.99</span>
+                                    <span class="discount-percentage">-70%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Last one!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress" style="width: 5%"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c7" data-name="Venusaur VMAX" data-price="14.99" data-image="images/promotions/venusaur-vmax.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clearance Item 8 -->
+                        <div class="clearance-card" data-category="booster-packs" data-discount="40" data-price="2.99">
+                            <div class="clearance-image">
+                                <img src="images/promotions/rebel-clash-pack.jpg" alt="Rebel Clash Booster Pack">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">40% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Rebel Clash Booster Pack</h3>
+                                <p class="clearance-description">Booster pack from the Rebel Clash expansion. Each pack contains 10 cards.</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€4.99</span>
+                                    <span class="discount-price">€2.99</span>
+                                    <span class="discount-percentage">-40%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Only 15 left!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c8" data-name="Rebel Clash Booster Pack" data-price="2.99" data-image="images/promotions/rebel-clash-pack.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clearance Item 9 -->
+                        <div class="clearance-card" data-category="accessories" data-discount="65" data-price="10.49">
+                            <div class="clearance-image">
+                                <img src="images/promotions/deck-box.jpg" alt="Pokémon Deck Box">
+                                <div class="clearance-tag">CLEARANCE</div>
+                                <div class="clearance-badge">65% OFF</div>
+                            </div>
+                            <div class="clearance-info">
+                                <h3 class="clearance-title">Pokémon Deck Box</h3>
+                                <p class="clearance-description">Premium deck box featuring Pikachu artwork. Holds up to 80 sleeved cards.</p>
+                                <div class="clearance-price">
+                                    <span class="original-price">€29.99</span>
+                                    <span class="discount-price">€10.49</span>
+                                    <span class="discount-percentage">-65%</span>
+                                </div>
+                                <div class="stock-info">
+                                    <span class="low-stock">Only 6 left!</span>
+                                    <div class="stock-bar">
+                                        <div class="stock-progress" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                                <div class="clearance-actions">
+                                    <button class="btn add-to-cart" data-id="c9" data-name="Pokémon Deck Box" data-price="10.49" data-image="images/promotions/deck-box.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pagination">
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#"><i class="fas fa-angle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Join Our Newsletter</h2>
+                <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                    </ul>
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.svg" alt="Payment Methods">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const clearanceCards = document.querySelectorAll('.clearance-card');
+            const applyFiltersBtn = document.querySelector('.apply-filters');
+            const sortSelect = document.getElementById('sort-by');
+            const itemsPerPageSelect = document.getElementById('items-per-page');
+            
+            // Active filters
+            const activeFilters = {
+                discount: [],
+                category: []
+            };
+            
+            // Toggle filter options
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    
+                    const filterType = this.getAttribute('data-filter');
+                    const filterValue = this.getAttribute('data-value');
+                    
+                    if (this.classList.contains('active')) {
+                        // Add to active filters
+                        if (!activeFilters[filterType].includes(filterValue)) {
+                            activeFilters[filterType].push(filterValue);
+                        }
+                    } else {
+                        // Remove from active filters
+                        const index = activeFilters[filterType].indexOf(filterValue);
+                        if (index > -1) {
+                            activeFilters[filterType].splice(index, 1);
+                        }
+                    }
+                });
+            });
+            
+            // Apply filters
+            applyFiltersBtn.addEventListener('click', function() {
+                const minPrice = document.getElementById('min-price').value;
+                const maxPrice = document.getElementById('max-price').value;
+                
+                clearanceCards.forEach(card => {
+                    const cardDiscount = card.getAttribute('data-discount');
+                    const cardCategory = card.getAttribute('data-category');
+                    const cardPrice = parseFloat(card.getAttribute('data-price'));
+                    
+                    let showCard = true;
+                    
+                    // Check discount filter
+                    if (activeFilters.discount.length > 0) {
+                        if (!activeFilters.discount.includes(cardDiscount)) {
+                            showCard = false;
+                        }
+                    }
+                    
+                    // Check category filter
+                    if (activeFilters.category.length > 0) {
+                        if (!activeFilters.category.includes(cardCategory)) {
+                            showCard = false;
+                        }
+                    }
+                    
+                    // Check price range
+                    if (minPrice && cardPrice < parseFloat(minPrice)) {
+                        showCard = false;
+                    }
+                    
+                    if (maxPrice && cardPrice > parseFloat(maxPrice)) {
+                        showCard = false;
+                    }
+                    
+                    // Show or hide card
+                    card.style.display = showCard ? 'block' : 'none';
+                });
+            });
+            
+            // Sort functionality
+            sortSelect.addEventListener('change', function() {
+                const sortValue = this.value;
+                const cardsArray = Array.from(clearanceCards);
+                
+                cardsArray.sort((a, b) => {
+                    if (sortValue === 'discount-high') {
+                        return parseInt(b.getAttribute('data-discount')) - parseInt(a.getAttribute('data-discount'));
+                    } else if (sortValue === 'discount-low') {
+                        return parseInt(a.getAttribute('data-discount')) - parseInt(b.getAttribute('data-discount'));
+                    } else if (sortValue === 'price-low') {
+                        return parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price'));
+                    } else if (sortValue === 'price-high') {
+                        return parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price'));
+                    } else if (sortValue === 'name-asc') {
+                        return a.querySelector('.clearance-title').textContent.localeCompare(b.querySelector('.clearance-title').textContent);
+                    } else if (sortValue === 'name-desc') {
+                        return b.querySelector('.clearance-title').textContent.localeCompare(a.querySelector('.clearance-title').textContent);
+                    }
+                });
+                
+                const clearanceGrid = document.querySelector('.clearance-grid');
+                cardsArray.forEach(card => {
+                    clearanceGrid.appendChild(card);
+                });
+            });
+            
+            // Items per page functionality
+            itemsPerPageSelect.addEventListener('change', function() {
+                const itemsPerPage = parseInt(this.value);
+                let count = 0;
+                
+                clearanceCards.forEach(card => {
+                    count++;
+                    if (count <= itemsPerPage) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Pagination functionality
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    paginationLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // In a real application, this would load the next page of items
+                    // For this demo, we'll just scroll to the top of the clearance section
+                    document.querySelector('.clearance-section').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

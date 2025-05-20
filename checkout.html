@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - MemeTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <style>
+        /* Additional styles for checkout page */
+        .checkout-section {
+            padding: 60px 0;
+        }
+        
+        .checkout-container {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .checkout-form {
+            flex: 2;
+        }
+        
+        .order-summary {
+            flex: 1;
+            background-color: var(--gray-light);
+            padding: 30px;
+            border-radius: 8px;
+            position: sticky;
+            top: 100px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .form-section {
+            background-color: var(--light-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .form-section h3 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .payment-method {
+            flex-basis: calc(50% - 10px);
+            padding: 15px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .payment-method:hover,
+        .payment-method.active {
+            border-color: var(--primary-color);
+            background-color: rgba(0, 102, 204, 0.05);
+        }
+        
+        .payment-method-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .payment-method-radio {
+            margin-right: 10px;
+        }
+        
+        .payment-method-logo {
+            height: 30px;
+            margin-left: auto;
+        }
+        
+        .payment-method-description {
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+        }
+        
+        .order-summary h3 {
+            margin-bottom: 20px;
+        }
+        
+        .order-items {
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .order-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .order-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .order-item-details {
+            flex-grow: 1;
+        }
+        
+        .order-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .order-item-price {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .order-item-quantity {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+        
+        .order-totals {
+            margin-bottom: 20px;
+        }
+        
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .order-total-row.final {
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .place-order-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .secure-checkout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+        
+        .secure-checkout i {
+            margin-right: 5px;
+            color: var(--success-color);
+        }
+        
+        @media (max-width: 992px) {
+            .checkout-container {
+                flex-direction: column;
+            }
+            
+            .order-summary {
+                position: static;
+                max-height: none;
+            }
+            
+            .payment-method {
+                flex-basis: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Checkout</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li>Checkout</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="checkout-section">
+        <div class="container">
+            <div class="checkout-container">
+                <div class="checkout-form">
+                    <div class="form-section">
+                        <h3>Billing Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name *</label>
+                                <input type="text" id="first-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name *</label>
+                                <input type="text" id="last-name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company Name (Optional)</label>
+                            <input type="text" id="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country / Region *</label>
+                            <select id="country" required>
+                                <option value="">Select a country</option>
+                                <option value="NL">Netherlands</option>
+                                <option value="BE">Belgium</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="US">United States</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="street">Street Address *</label>
+                            <input type="text" id="street" placeholder="House number and street name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Apartment, suite, unit, etc. (optional)">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">Town / City *</label>
+                                <input type="text" id="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="postcode">Postcode *</label>
+                                <input type="text" id="postcode" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone *</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Shipping Details</h3>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="same-address" checked>
+                                Same as billing address
+                            </label>
+                        </div>
+                        <div id="shipping-address" style="display: none;">
+                            <!-- Shipping address fields will be shown when checkbox is unchecked -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="shipping-first-name">First Name *</label>
+                                    <input type="text" id="shipping-first-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="shipping-last-name">Last Name *</label>
+                                    <input type="text" id="shipping-last-name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping-company">Company Name (Optional)</label>
+                                <input type="text" id="shipping-company">
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping-country">Country / Region *</label>
+                                <select id="shipping-country">
+                                    <option value="">Select a country</option>
+                                    <option value="NL">Netherlands</option>
+                                    <option value="BE">Belgium</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="FR">France</option>
+                                    <option value="UK">United Kingdom</option>
+                                    <option value="US">United States</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping-street">Street Address *</label>
+                                <input type="text" id="shipping-street" placeholder="House number and street name">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Apartment, suite, unit, etc. (optional)">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="shipping-city">Town / City *</label>
+                                    <input type="text" id="shipping-city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="shipping-postcode">Postcode *</label>
+                                    <input type="text" id="shipping-postcode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Additional Information</h3>
+                        <div class="form-group">
+                            <label for="order-notes">Order Notes (Optional)</label>
+                            <textarea id="order-notes" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Payment Method</h3>
+                        <div class="payment-methods">
+                            <div class="payment-method active">
+                                <div class="payment-method-header">
+                                    <input type="radio" name="payment-method" id="credit-card" class="payment-method-radio" checked>
+                                    <label for="credit-card">Credit Card</label>
+                                    <img src="images/payment/credit-cards.png" alt="Credit Cards" class="payment-method-logo">
+                                </div>
+                                <p class="payment-method-description">Pay securely with your credit card.</p>
+                            </div>
+                            <div class="payment-method">
+                                <div class="payment-method-header">
+                                    <input type="radio" name="payment-method" id="paypal" class="payment-method-radio">
+                                    <label for="paypal">PayPal</label>
+                                    <img src="images/payment/paypal.png" alt="PayPal" class="payment-method-logo">
+                                </div>
+                                <p class="payment-method-description">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
+                            </div>
+                            <div class="payment-method">
+                                <div class="payment-method-header">
+                                    <input type="radio" name="payment-method" id="ideal" class="payment-method-radio">
+                                    <label for="ideal">iDEAL</label>
+                                    <img src="images/payment/ideal.png" alt="iDEAL" class="payment-method-logo">
+                                </div>
+                                <p class="payment-method-description">Pay directly with your bank account via iDEAL.</p>
+                            </div>
+                            <div class="payment-method">
+                                <div class="payment-method-header">
+                                    <input type="radio" name="payment-method" id="bank-transfer" class="payment-method-radio">
+                                    <label for="bank-transfer">Bank Transfer</label>
+                                    <img src="images/payment/bank-transfer.png" alt="Bank Transfer" class="payment-method-logo">
+                                </div>
+                                <p class="payment-method-description">Make your payment directly into our bank account. Please use your Order ID as the payment reference.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div class="order-items" id="order-summary-items">
+                        <!-- Order items will be added here dynamically -->
+                    </div>
+                    <div class="order-totals">
+                        <div class="order-total-row">
+                            <span>Subtotal</span>
+                            <span id="order-subtotal">€0.00</span>
+                        </div>
+                        <div class="order-total-row">
+                            <span>Shipping</span>
+                            <span id="order-shipping">€4.95</span>
+                        </div>
+                        <div class="order-total-row">
+                            <span>Tax (21%)</span>
+                            <span id="order-tax">€0.00</span>
+                        </div>
+                        <div class="order-total-row final">
+                            <span>Total</span>
+                            <span id="order-total">€0.00</span>
+                        </div>
+                    </div>
+                    <button class="btn place-order-btn">Place Order</button>
+                    <div class="secure-checkout">
+                        <i class="fas fa-lock"></i> Secure Checkout
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                    </ul>
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.svg" alt="Payment Methods">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Toggle shipping address form
+        document.addEventListener('DOMContentLoaded', function() {
+            const sameAddressCheckbox = document.getElementById('same-address');
+            const shippingAddressForm = document.getElementById('shipping-address');
+            
+            if (sameAddressCheckbox && shippingAddressForm) {
+                sameAddressCheckbox.addEventListener('change', function() {
+                    shippingAddressForm.style.display = this.checked ? 'none' : 'block';
+                });
+            }
+            
+            // Payment method selection
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    // Remove active class from all methods
+                    paymentMethods.forEach(m => m.classList.remove('active'));
+                    
+                    // Add active class to clicked method
+                    this.classList.add('active');
+                    
+                    // Check the radio button
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                });
+            });
+            
+            // Display order summary
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderSummaryItems = document.getElementById('order-summary-items');
+            const orderSubtotal = document.getElementById('order-subtotal');
+            const orderTax = document.getElementById('order-tax');
+            const orderTotal = document.getElementById('order-total');
+            
+            if (orderSummaryItems && cart.length > 0) {
+                let subtotal = 0;
+                
+                // Clear existing items
+                orderSummaryItems.innerHTML = '';
+                
+                // Add each item to order summary
+                cart.forEach(item => {
+                    const orderItem = document.createElement('div');
+                    orderItem.classList.add('order-item');
+                    
+                    const itemTotal = item.price * item.quantity;
+                    subtotal += itemTotal;
+                    
+                    orderItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="order-item-image">
+                        <div class="order-item-details">
+                            <h4 class="order-item-title">${item.name}</h4>
+                            <p class="order-item-price">€${item.price.toFixed(2)}</p>
+                            <p class="order-item-quantity">Quantity: ${item.quantity}</p>
+                        </div>
+                    `;
+                    
+                    orderSummaryItems.appendChild(orderItem);
+                });
+                
+                // Calculate tax and total
+                const shipping = 4.95;
+                const tax = subtotal * 0.21;
+                const total = subtotal + shipping + tax;
+                
+                // Update totals
+                orderSubtotal.textContent = `€${subtotal.toFixed(2)}`;
+                orderTax.textContent = `€${tax.toFixed(2)}`;
+                orderTotal.textContent = `€${total.toFixed(2)}`;
+            } else if (orderSummaryItems) {
+                orderSummaryItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+                orderSubtotal.textContent = '€0.00';
+                orderTax.textContent = '€0.00';
+                orderTotal.textContent = '€4.95'; // Just shipping
+            }
+            
+            // Place order button
+            const placeOrderBtn = document.querySelector('.place-order-btn');
+            
+            if (placeOrderBtn) {
+                placeOrderBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Validate form
+                    const requiredFields = document.querySelectorAll('input[required], select[required]');
+                    let isValid = true;
+                    
+                    requiredFields.forEach(field => {
+                        if (!field.value.trim()) {
+                            isValid = false;
+                            field.classList.add('error');
+                        } else {
+                            field.classList.remove('error');
+                        }
+                    });
+                    
+                    if (!isValid) {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
+                    
+                    // Process order (in a real application, this would send data to a server)
+                    alert('Thank you for your order! Your order has been placed successfully.');
+                    
+                    // Clear cart
+                    localStorage.removeItem('cart');
+                    
+                    // Redirect to confirmation page
+                    // window.location.href = 'order-confirmation.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

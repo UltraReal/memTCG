@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bundle Deals - MemeTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <style>
+        /* Additional styles for bundle deals page */
+        .bundle-section {
+            padding: 60px 0;
+            background-color: var(--primary-light);
+        }
+        
+        .bundle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .bundle-header h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .bundle-filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .bundle-filter label {
+            margin-right: 5px;
+        }
+        
+        .bundle-filter select {
+            padding: 8px 15px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            background-color: var(--light-color);
+        }
+        
+        .bundle-banner {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--light-color);
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .bundle-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .bundle-banner-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .bundle-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .bundle-banner p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        .bundle-banner .btn {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 30px;
+        }
+        
+        .bundle-banner .btn:hover {
+            background-color: var(--gray-light);
+            transform: translateY(-3px);
+        }
+        
+        .bundle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .bundle-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .bundle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.2);
+        }
+        
+        .bundle-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .bundle-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .bundle-card:hover .bundle-image img {
+            transform: scale(1.05);
+        }
+        
+        .bundle-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .bundle-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .bundle-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .bundle-description {
+            color: var(--gray-dark);
+            margin-bottom: 15px;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .bundle-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .bundle-price-value {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .bundle-savings {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .bundle-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .bundle-actions .btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .bundle-items {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .bundle-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .bundle-item-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        
+        .bundle-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .bundle-item-title {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            flex-grow: 1;
+        }
+        
+        .bundle-item-price {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+        
+        .bundle-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px dashed var(--gray);
+            font-weight: 600;
+        }
+        
+        .bundle-total-label {
+            color: var(--text-color);
+        }
+        
+        .bundle-total-value {
+            color: var(--primary-color);
+        }
+        
+        .bundle-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .bundle-category {
+            background-color: var(--light-color);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--gray);
+        }
+        
+        .bundle-category:hover,
+        .bundle-category.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .pagination a:hover,
+        .pagination a.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+        
+        @media (max-width: 992px) {
+            .bundle-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .bundle-filter {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .bundle-filter {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .bundle-filter select {
+                width: 100%;
+            }
+            
+            .bundle-categories {
+                overflow-x: auto;
+                padding-bottom: 10px;
+                flex-wrap: nowrap;
+            }
+            
+            .bundle-category {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="sale-items.html">Sale Items</a></li>
+                            <li><a href="clearance.html">Clearance</a></li>
+                            <li><a href="bundle-deals.html" class="active">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Bundle Deals</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="promotions.html">Promotions</a></li>
+                    <li>Bundle Deals</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="bundle-section">
+        <div class="container">
+            <div class="bundle-banner">
+                <div class="bundle-banner-content">
+                    <h2>Save Big with Our Bundle Deals!</h2>
+                    <p>Get more for less with our specially curated bundles. Perfect for collectors, players, and gift-givers alike.</p>
+                    <a href="#bundle-deals" class="btn">Explore Bundles</a>
+                </div>
+            </div>
+            
+            <div class="bundle-categories">
+                <div class="bundle-category active" data-category="all">All Bundles</div>
+                <div class="bundle-category" data-category="starter">Starter Bundles</div>
+                <div class="bundle-category" data-category="collector">Collector Bundles</div>
+                <div class="bundle-category" data-category="booster">Booster Bundles</div>
+                <div class="bundle-category" data-category="accessory">Accessory Bundles</div>
+                <div class="bundle-category" data-category="gift">Gift Bundles</div>
+            </div>
+            
+            <div class="bundle-header">
+                <h2 id="bundle-deals">Bundle Deals</h2>
+                <div class="bundle-filter">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by">
+                        <option value="popular">Most Popular</option>
+                        <option value="savings-high">Savings: High to Low</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="bundle-grid">
+                <!-- Bundle 1 -->
+                <div class="bundle-card" data-category="starter">
+                    <div class="bundle-image">
+                        <img src="images/promotions/starter-bundle.jpg" alt="Starter Bundle">
+                        <div class="bundle-badge">SAVE €15</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Starter Bundle</h3>
+                        <p class="bundle-description">Perfect for beginners! Get everything you need to start playing the Pokémon TCG.</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/starter-deck.jpg" alt="Starter Deck">
+                                </div>
+                                <span class="bundle-item-title">Starter Deck</span>
+                                <span class="bundle-item-price">€14.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/booster-packs.jpg" alt="3x Booster Packs">
+                                </div>
+                                <span class="bundle-item-title">3x Booster Packs</span>
+                                <span class="bundle-item-price">€14.97</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/card-sleeves.jpg" alt="Card Sleeves">
+                                </div>
+                                <span class="bundle-item-title">Card Sleeves</span>
+                                <span class="bundle-item-price">€9.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/playmat.jpg" alt="Playmat">
+                                </div>
+                                <span class="bundle-item-title">Playmat</span>
+                                <span class="bundle-item-price">€14.99</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€54.94</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€39.99</span>
+                            <span class="bundle-savings">SAVE €14.95</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b1" data-name="Starter Bundle" data-price="39.99" data-image="images/promotions/starter-bundle.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bundle 2 -->
+                <div class="bundle-card" data-category="collector">
+                    <div class="bundle-image">
+                        <img src="images/promotions/collector-bundle.jpg" alt="Collector's Bundle">
+                        <div class="bundle-badge">SAVE €25</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Collector's Bundle</h3>
+                        <p class="bundle-description">A premium bundle for serious collectors. Get the latest Elite Trainer Box and more!</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/elite-trainer-box.jpg" alt="Elite Trainer Box">
+                                </div>
+                                <span class="bundle-item-title">Elite Trainer Box</span>
+                                <span class="bundle-item-price">€49.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/premium-binder.jpg" alt="Premium Binder">
+                                </div>
+                                <span class="bundle-item-title">Premium Binder</span>
+                                <span class="bundle-item-price">€29.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/card-sleeves-premium.jpg" alt="Premium Card Sleeves">
+                                </div>
+                                <span class="bundle-item-title">Premium Card Sleeves</span>
+                                <span class="bundle-item-price">€14.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/promo-card.jpg" alt="Exclusive Promo Card">
+                                </div>
+                                <span class="bundle-item-title">Exclusive Promo Card</span>
+                                <span class="bundle-item-price">€9.99</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€104.96</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€79.99</span>
+                            <span class="bundle-savings">SAVE €24.97</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b2" data-name="Collector's Bundle" data-price="79.99" data-image="images/promotions/collector-bundle.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bundle 3 -->
+                <div class="bundle-card" data-category="booster">
+                    <div class="bundle-image">
+                        <img src="images/promotions/booster-bundle.jpg" alt="Booster Bundle">
+                        <div class="bundle-badge">SAVE €10</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Booster Bundle</h3>
+                        <p class="bundle-description">Get a variety of booster packs from different sets at a discounted price!</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/scarlet-violet-pack.jpg" alt="Scarlet & Violet Pack">
+                                </div>
+                                <span class="bundle-item-title">2x Scarlet & Violet Packs</span>
+                                <span class="bundle-item-price">€9.98</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/crown-zenith-pack.jpg" alt="Crown Zenith Pack">
+                                </div>
+                                <span class="bundle-item-title">2x Crown Zenith Packs</span>
+                                <span class="bundle-item-price">€11.98</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/silver-tempest-pack.jpg" alt="Silver Tempest Pack">
+                                </div>
+                                <span class="bundle-item-title">2x Silver Tempest Packs</span>
+                                <span class="bundle-item-price">€9.98</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€31.94</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€24.99</span>
+                            <span class="bundle-savings">SAVE €6.95</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b3" data-name="Booster Bundle" data-price="24.99" data-image="images/promotions/booster-bundle.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bundle 4 -->
+                <div class="bundle-card" data-category="accessory">
+                    <div class="bundle-image">
+                        <img src="images/promotions/accessory-bundle.jpg" alt="Accessory Bundle">
+                        <div class="bundle-badge">SAVE €20</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Accessory Bundle</h3>
+                        <p class="bundle-description">Everything you need to protect and display your valuable Pokémon card collection.</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/premium-binder.jpg" alt="Premium Binder">
+                                </div>
+                                <span class="bundle-item-title">Premium Binder</span>
+                                <span class="bundle-item-price">€29.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/card-sleeves-premium.jpg" alt="Premium Card Sleeves">
+                                </div>
+                                <span class="bundle-item-title">Premium Card Sleeves (2 packs)</span>
+                                <span class="bundle-item-price">€29.98</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/deck-box.jpg" alt="Deck Box">
+                                </div>
+                                <span class="bundle-item-title">Deck Box (2 pieces)</span>
+                                <span class="bundle-item-price">€19.98</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€79.95</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€59.99</span>
+                            <span class="bundle-savings">SAVE €19.96</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b4" data-name="Accessory Bundle" data-price="59.99" data-image="images/promotions/accessory-bundle.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bundle 5 -->
+                <div class="bundle-card" data-category="gift">
+                    <div class="bundle-image">
+                        <img src="images/promotions/gift-bundle.jpg" alt="Gift Bundle">
+                        <div class="bundle-badge">SAVE €30</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Ultimate Gift Bundle</h3>
+                        <p class="bundle-description">The perfect gift for any Pokémon fan! Includes a variety of products in a special gift box.</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/elite-trainer-box.jpg" alt="Elite Trainer Box">
+                                </div>
+                                <span class="bundle-item-title">Elite Trainer Box</span>
+                                <span class="bundle-item-price">€49.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/promo-card.jpg" alt="Exclusive Promo Card">
+                                </div>
+                                <span class="bundle-item-title">Exclusive Promo Card</span>
+                                <span class="bundle-item-price">€9.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/plush-toy.jpg" alt="Pikachu Plush Toy">
+                                </div>
+                                <span class="bundle-item-title">Pikachu Plush Toy</span>
+                                <span class="bundle-item-price">€24.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/gift-box.jpg" alt="Decorative Gift Box">
+                                </div>
+                                <span class="bundle-item-title">Decorative Gift Box</span>
+                                <span class="bundle-item-price">€14.99</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€99.96</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€69.99</span>
+                            <span class="bundle-savings">SAVE €29.97</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b5" data-name="Ultimate Gift Bundle" data-price="69.99" data-image="images/promotions/gift-bundle.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bundle 6 -->
+                <div class="bundle-card" data-category="starter">
+                    <div class="bundle-image">
+                        <img src="images/promotions/battle-academy.jpg" alt="Battle Academy Bundle">
+                        <div class="bundle-badge">SAVE €15</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Battle Academy Bundle</h3>
+                        <p class="bundle-description">Learn to play the Pokémon TCG with this comprehensive bundle for beginners.</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/battle-academy-box.jpg" alt="Battle Academy Box">
+                                </div>
+                                <span class="bundle-item-title">Battle Academy Box</span>
+                                <span class="bundle-item-price">€29.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/booster-packs.jpg" alt="2x Booster Packs">
+                                </div>
+                                <span class="bundle-item-title">2x Booster Packs</span>
+                                <span class="bundle-item-price">€9.98</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/card-sleeves.jpg" alt="Card Sleeves">
+                                </div>
+                                <span class="bundle-item-title">Card Sleeves</span>
+                                <span class="bundle-item-price">€9.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/rulebook.jpg" alt="Advanced Rulebook">
+                                </div>
+                                <span class="bundle-item-title">Advanced Rulebook</span>
+                                <span class="bundle-item-price">€4.99</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€54.95</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€39.99</span>
+                            <span class="bundle-savings">SAVE €14.96</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b6" data-name="Battle Academy Bundle" data-price="39.99" data-image="images/promotions/battle-academy.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bundle 7 -->
+                <div class="bundle-card" data-category="collector">
+                    <div class="bundle-image">
+                        <img src="images/promotions/premium-collection.jpg" alt="Premium Collection Bundle">
+                        <div class="bundle-badge">SAVE €35</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Premium Collection Bundle</h3>
+                        <p class="bundle-description">A high-end bundle featuring premium products for the serious collector.</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/premium-collection-box.jpg" alt="Premium Collection Box">
+                                </div>
+                                <span class="bundle-item-title">Premium Collection Box</span>
+                                <span class="bundle-item-price">€69.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/jumbo-card.jpg" alt="Jumbo Card">
+                                </div>
+                                <span class="bundle-item-title">Jumbo Card</span>
+                                <span class="bundle-item-price">€14.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/metal-coin.jpg" alt="Metal Coin">
+                                </div>
+                                <span class="bundle-item-title">Metal Coin</span>
+                                <span class="bundle-item-price">€19.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/acrylic-stand.jpg" alt="Acrylic Card Stand">
+                                </div>
+                                <span class="bundle-item-title">Acrylic Card Stand</span>
+                                <span class="bundle-item-price">€24.99</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€129.96</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€94.99</span>
+                            <span class="bundle-savings">SAVE €34.97</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b7" data-name="Premium Collection Bundle" data-price="94.99" data-image="images/promotions/premium-collection.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bundle 8 -->
+                <div class="bundle-card" data-category="booster">
+                    <div class="bundle-image">
+                        <img src="images/promotions/elite-booster-bundle.jpg" alt="Elite Booster Bundle">
+                        <div class="bundle-badge">SAVE €25</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Elite Booster Bundle</h3>
+                        <p class="bundle-description">A premium selection of booster packs from the latest expansions.</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/scarlet-violet-pack.jpg" alt="Scarlet & Violet Packs">
+                                </div>
+                                <span class="bundle-item-title">4x Scarlet & Violet Packs</span>
+                                <span class="bundle-item-price">€19.96</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/paradox-rift-pack.jpg" alt="Paradox Rift Packs">
+                                </div>
+                                <span class="bundle-item-title">4x Paradox Rift Packs</span>
+                                <span class="bundle-item-price">€19.96</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/obsidian-flames-pack.jpg" alt="Obsidian Flames Packs">
+                                </div>
+                                <span class="bundle-item-title">4x Obsidian Flames Packs</span>
+                                <span class="bundle-item-price">€19.96</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/card-sleeves.jpg" alt="Card Sleeves">
+                                </div>
+                                <span class="bundle-item-title">Card Sleeves</span>
+                                <span class="bundle-item-price">€9.99</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€69.87</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€44.99</span>
+                            <span class="bundle-savings">SAVE €24.88</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b8" data-name="Elite Booster Bundle" data-price="44.99" data-image="images/promotions/elite-booster-bundle.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bundle 9 -->
+                <div class="bundle-card" data-category="gift">
+                    <div class="bundle-image">
+                        <img src="images/promotions/holiday-bundle.jpg" alt="Holiday Gift Bundle">
+                        <div class="bundle-badge">SAVE €40</div>
+                    </div>
+                    <div class="bundle-info">
+                        <h3 class="bundle-title">Holiday Gift Bundle</h3>
+                        <p class="bundle-description">The perfect holiday gift for Pokémon fans, beautifully packaged in a festive box.</p>
+                        <div class="bundle-items">
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/elite-trainer-box.jpg" alt="Elite Trainer Box">
+                                </div>
+                                <span class="bundle-item-title">Elite Trainer Box</span>
+                                <span class="bundle-item-price">€49.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/holiday-tin.jpg" alt="Holiday Tin">
+                                </div>
+                                <span class="bundle-item-title">Holiday Tin</span>
+                                <span class="bundle-item-price">€29.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/plush-toy.jpg" alt="Pikachu Plush Toy">
+                                </div>
+                                <span class="bundle-item-title">Pikachu Plush Toy</span>
+                                <span class="bundle-item-price">€24.99</span>
+                            </div>
+                            <div class="bundle-item">
+                                <div class="bundle-item-image">
+                                    <img src="images/promotions/holiday-box.jpg" alt="Festive Gift Box">
+                                </div>
+                                <span class="bundle-item-title">Festive Gift Box</span>
+                                <span class="bundle-item-price">€19.99</span>
+                            </div>
+                            <div class="bundle-total">
+                                <span class="bundle-total-label">Total Value:</span>
+                                <span class="bundle-total-value">€124.96</span>
+                            </div>
+                        </div>
+                        <div class="bundle-price">
+                            <span class="bundle-price-value">€84.99</span>
+                            <span class="bundle-savings">SAVE €39.97</span>
+                        </div>
+                        <div class="bundle-actions">
+                            <button class="btn add-to-cart" data-id="b9" data-name="Holiday Gift Bundle" data-price="84.99" data-image="images/promotions/holiday-bundle.jpg">Add to Cart</button>
+                            <a href="#" class="btn btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#"><i class="fas fa-angle-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Join Our Newsletter</h2>
+                <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                    </ul>
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.svg" alt="Payment Methods">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Category filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.bundle-category');
+            const bundleCards = document.querySelectorAll('.bundle-card');
+            const sortSelect = document.getElementById('sort-by');
+            
+            // Category filter
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    // Show/hide bundle cards based on category
+                    bundleCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Sort functionality
+            sortSelect.addEventListener('change', function() {
+                const sortValue = this.value;
+                const cardsArray = Array.from(bundleCards);
+                
+                cardsArray.sort((a, b) => {
+                    if (sortValue === 'popular') {
+                        // For demo purposes, we'll just randomize
+                        return 0.5 - Math.random();
+                    } else if (sortValue === 'savings-high') {
+                        const savingsA = a.querySelector('.bundle-savings').textContent.match(/\d+\.\d+/);
+                        const savingsB = b.querySelector('.bundle-savings').textContent.match(/\d+\.\d+/);
+                        return parseFloat(savingsB) - parseFloat(savingsA);
+                    } else if (sortValue === 'price-low') {
+                        const priceA = parseFloat(a.querySelector('.bundle-price-value').textContent.replace('€', ''));
+                        const priceB = parseFloat(b.querySelector('.bundle-price-value').textContent.replace('€', ''));
+                        return priceA - priceB;
+                    } else if (sortValue === 'price-high') {
+                        const priceA = parseFloat(a.querySelector('.bundle-price-value').textContent.replace('€', ''));
+                        const priceB = parseFloat(b.querySelector('.bundle-price-value').textContent.replace('€', ''));
+                        return priceB - priceA;
+                    } else if (sortValue === 'newest') {
+                        // For demo purposes, we'll just randomize
+                        return 0.5 - Math.random();
+                    }
+                });
+                
+                const bundleGrid = document.querySelector('.bundle-grid');
+                cardsArray.forEach(card => {
+                    bundleGrid.appendChild(card);
+                });
+            });
+            
+            // Pagination functionality
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    paginationLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // In a real application, this would load the next page of items
+                    // For this demo, we'll just scroll to the top of the bundle section
+                    document.querySelector('.bundle-section').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

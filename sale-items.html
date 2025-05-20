@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale Items - MemeTCG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/script.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <style>
+        /* Additional styles for sale items page */
+        .sale-section {
+            padding: 60px 0;
+            background-color: var(--primary-light);
+        }
+        
+        .sale-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .sale-header h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .sale-filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .sale-filter label {
+            margin-right: 5px;
+        }
+        
+        .sale-filter select {
+            padding: 8px 15px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            background-color: var(--light-color);
+        }
+        
+        .sale-banner {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--light-color);
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .sale-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .sale-banner-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .sale-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .sale-banner p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        .sale-banner .btn {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 30px;
+        }
+        
+        .sale-banner .btn:hover {
+            background-color: var(--gray-light);
+            transform: translateY(-3px);
+        }
+        
+        .sale-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .sale-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .sale-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.2);
+        }
+        
+        .sale-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .sale-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .sale-card:hover .sale-image img {
+            transform: scale(1.05);
+        }
+        
+        .sale-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .sale-info {
+            padding: 20px;
+        }
+        
+        .sale-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .sale-description {
+            color: var(--gray-dark);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .sale-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray-dark);
+            margin-right: 10px;
+        }
+        
+        .discount-price {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .discount-percentage {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .sale-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sale-actions .btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .sale-timer {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--gray-light);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .sale-timer i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .pagination a:hover,
+        .pagination a.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+        
+        .filters-sidebar {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        
+        .filter-section h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-option {
+            background-color: var(--gray-light);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-option:hover,
+        .filter-option.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+        
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .price-range input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+        
+        .apply-filters {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: var(--transition);
+        }
+        
+        .apply-filters:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .sale-container {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+        
+        .sale-content {
+            flex-grow: 1;
+        }
+        
+        @media (max-width: 992px) {
+            .sale-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .sale-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .sale-filter {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sale-filter {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .sale-filter select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.svg" alt="memTCG Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="shop.html">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                            <li><a href="shop.html?category=collections">Special Collections</a></li>
+                            <li><a href="shop.html?category=accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li>
+                        <a href="promotions.html">Promotions</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="sale-items.html" class="active">Sale Items</a></li>
+                            <li><a href="clearance.html">Clearance</a></li>
+                            <li><a href="bundle-deals.html">Bundle Deals</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Cart</h3>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total">€0.00</span></p>
+        </div>
+        <div class="cart-buttons">
+            <button class="btn view-cart">View Cart</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Sale Items</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="promotions.html">Promotions</a></li>
+                    <li>Sale Items</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="sale-section">
+        <div class="container">
+            <div class="sale-banner">
+                <div class="sale-banner-content">
+                    <h2>Holiday Sale: Up to 40% Off!</h2>
+                    <p>Celebrate the holiday season with our biggest sale of the year. Limited time offers on a wide range of Pokémon cards and accessories.</p>
+                    <a href="#sale-items" class="btn">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="sale-container">
+                <div class="sidebar">
+                    <div class="filters-sidebar">
+                        <h3>Filters</h3>
+                        
+                        <div class="filter-section">
+                            <h3>Discount</h3>
+                            <div class="filter-options">
+                                <div class="filter-option" data-filter="discount" data-value="10">10% Off</div>
+                                <div class="filter-option" data-filter="discount" data-value="20">20% Off</div>
+                                <div class="filter-option" data-filter="discount" data-value="30">30% Off</div>
+                                <div class="filter-option" data-filter="discount" data-value="40">40% Off</div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <h3>Category</h3>
+                            <div class="filter-options">
+                                <div class="filter-option" data-filter="category" data-value="single-cards">Single Cards</div>
+                                <div class="filter-option" data-filter="category" data-value="booster-packs">Booster Packs</div>
+                                <div class="filter-option" data-filter="category" data-value="elite-boxes">Elite Trainer Boxes</div>
+                                <div class="filter-option" data-filter="category" data-value="accessories">Accessories</div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <h3>Price Range</h3>
+                            <div class="price-range">
+                                <input type="number" id="min-price" placeholder="Min" min="0">
+                                <span>to</span>
+                                <input type="number" id="max-price" placeholder="Max" min="0">
+                            </div>
+                        </div>
+                        
+                        <button class="apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+                
+                <div class="sale-content">
+                    <div class="sale-header">
+                        <h2 id="sale-items">Sale Items</h2>
+                        <div class="sale-filter">
+                            <label for="sort-by">Sort by:</label>
+                            <select id="sort-by">
+                                <option value="discount-high">Discount: High to Low</option>
+                                <option value="discount-low">Discount: Low to High</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="name-asc">Name: A to Z</option>
+                                <option value="name-desc">Name: Z to A</option>
+                            </select>
+                            
+                            <label for="items-per-page">Show:</label>
+                            <select id="items-per-page">
+                                <option value="12">12 per page</option>
+                                <option value="24">24 per page</option>
+                                <option value="36">36 per page</option>
+                                <option value="48">48 per page</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="sale-grid">
+                        <!-- Sale Item 1 -->
+                        <div class="sale-card" data-category="single-cards" data-discount="20" data-price="71.99">
+                            <div class="sale-image">
+                                <img src="images/promotions/charizard-vmax.jpg" alt="Charizard VMAX">
+                                <div class="sale-badge">20% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Charizard VMAX</h3>
+                                <p class="sale-description">One of the most powerful and sought-after cards in the current meta. Limited stock available!</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€89.99</span>
+                                    <span class="discount-price">€71.99</span>
+                                    <span class="discount-percentage">-20%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">3 days, 8 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s1" data-name="Charizard VMAX" data-price="71.99" data-image="images/promotions/charizard-vmax.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sale Item 2 -->
+                        <div class="sale-card" data-category="single-cards" data-discount="15" data-price="42.49">
+                            <div class="sale-image">
+                                <img src="images/promotions/pikachu-vmax.jpg" alt="Pikachu VMAX">
+                                <div class="sale-badge">15% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Pikachu VMAX</h3>
+                                <p class="sale-description">The iconic Pikachu in its powerful VMAX form. A must-have for any collector!</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€49.99</span>
+                                    <span class="discount-price">€42.49</span>
+                                    <span class="discount-percentage">-15%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">5 days, 12 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s2" data-name="Pikachu VMAX" data-price="42.49" data-image="images/promotions/pikachu-vmax.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sale Item 3 -->
+                        <div class="sale-card" data-category="single-cards" data-discount="25" data-price="29.99">
+                            <div class="sale-image">
+                                <img src="images/promotions/mewtwo-gx.jpg" alt="Mewtwo GX">
+                                <div class="sale-badge">25% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Mewtwo GX</h3>
+                                <p class="sale-description">The psychic powerhouse Mewtwo in its GX form. Excellent addition to any psychic-type deck.</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€39.99</span>
+                                    <span class="discount-price">€29.99</span>
+                                    <span class="discount-percentage">-25%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">7 days, 3 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s3" data-name="Mewtwo GX" data-price="29.99" data-image="images/promotions/mewtwo-gx.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sale Item 4 -->
+                        <div class="sale-card" data-category="booster-packs" data-discount="10" data-price="4.49">
+                            <div class="sale-image">
+                                <img src="images/promotions/scarlet-violet-pack.jpg" alt="Scarlet & Violet Booster Pack">
+                                <div class="sale-badge">10% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Scarlet & Violet Booster Pack</h3>
+                                <p class="sale-description">The latest base set from the Scarlet & Violet series. Each pack contains 10 cards.</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€4.99</span>
+                                    <span class="discount-price">€4.49</span>
+                                    <span class="discount-percentage">-10%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">10 days, 5 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s4" data-name="Scarlet & Violet Booster Pack" data-price="4.49" data-image="images/promotions/scarlet-violet-pack.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sale Item 5 -->
+                        <div class="sale-card" data-category="elite-boxes" data-discount="30" data-price="34.99">
+                            <div class="sale-image">
+                                <img src="images/promotions/scarlet-violet-etb.jpg" alt="Scarlet & Violet Elite Trainer Box">
+                                <div class="sale-badge">30% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Scarlet & Violet Elite Trainer Box</h3>
+                                <p class="sale-description">Contains 8 Scarlet & Violet booster packs, 65 card sleeves, 45 energy cards, and more!</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€49.99</span>
+                                    <span class="discount-price">€34.99</span>
+                                    <span class="discount-percentage">-30%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">2 days, 14 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s5" data-name="Scarlet & Violet Elite Trainer Box" data-price="34.99" data-image="images/promotions/scarlet-violet-etb.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sale Item 6 -->
+                        <div class="sale-card" data-category="accessories" data-discount="20" data-price="15.99">
+                            <div class="sale-image">
+                                <img src="images/promotions/card-binder.jpg" alt="Pokémon Card Binder">
+                                <div class="sale-badge">20% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Pokémon Card Binder</h3>
+                                <p class="sale-description">A high-quality binder to store and protect your valuable Pokémon cards. Holds up to 360 cards.</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€19.99</span>
+                                    <span class="discount-price">€15.99</span>
+                                    <span class="discount-percentage">-20%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">8 days, 9 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s6" data-name="Pokémon Card Binder" data-price="15.99" data-image="images/promotions/card-binder.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sale Item 7 -->
+                        <div class="sale-card" data-category="single-cards" data-discount="15" data-price="33.99">
+                            <div class="sale-image">
+                                <img src="images/promotions/gengar-vmax.jpg" alt="Gengar VMAX">
+                                <div class="sale-badge">15% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Gengar VMAX</h3>
+                                <p class="sale-description">The ghostly Gengar in its powerful VMAX form. A great addition to any ghost/psychic deck.</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€39.99</span>
+                                    <span class="discount-price">€33.99</span>
+                                    <span class="discount-percentage">-15%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">6 days, 18 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s7" data-name="Gengar VMAX" data-price="33.99" data-image="images/promotions/gengar-vmax.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sale Item 8 -->
+                        <div class="sale-card" data-category="booster-packs" data-discount="25" data-price="3.74">
+                            <div class="sale-image">
+                                <img src="images/promotions/crown-zenith-pack.jpg" alt="Crown Zenith Booster Pack">
+                                <div class="sale-badge">25% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Crown Zenith Booster Pack</h3>
+                                <p class="sale-description">The final expansion of the Sword & Shield era. Each pack contains 10 cards.</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€4.99</span>
+                                    <span class="discount-price">€3.74</span>
+                                    <span class="discount-percentage">-25%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">4 days, 11 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s8" data-name="Crown Zenith Booster Pack" data-price="3.74" data-image="images/promotions/crown-zenith-pack.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sale Item 9 -->
+                        <div class="sale-card" data-category="accessories" data-discount="40" data-price="17.99">
+                            <div class="sale-image">
+                                <img src="images/promotions/playmat.jpg" alt="Pokémon Playmat">
+                                <div class="sale-badge">40% OFF</div>
+                            </div>
+                            <div class="sale-info">
+                                <h3 class="sale-title">Pokémon Playmat</h3>
+                                <p class="sale-description">A high-quality playmat featuring Pikachu and friends. Perfect for playing the Pokémon TCG.</p>
+                                <div class="sale-price">
+                                    <span class="original-price">€29.99</span>
+                                    <span class="discount-price">€17.99</span>
+                                    <span class="discount-percentage">-40%</span>
+                                </div>
+                                <div class="sale-timer">
+                                    <span><i class="fas fa-clock"></i> Ends in:</span>
+                                    <span class="countdown">1 day, 7 hours</span>
+                                </div>
+                                <div class="sale-actions">
+                                    <button class="btn add-to-cart" data-id="s9" data-name="Pokémon Playmat" data-price="17.99" data-image="images/promotions/playmat.jpg">Add to Cart</button>
+                                    <a href="#" class="btn btn-outline">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pagination">
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#"><i class="fas fa-angle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Join Our Newsletter</h2>
+                <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </div>
+                    <p>Your premier destination for Pokémon cards and collectibles. We offer a wide selection of cards for collectors and players alike.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
+                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                    </ul>
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.svg" alt="Payment Methods">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const saleCards = document.querySelectorAll('.sale-card');
+            const applyFiltersBtn = document.querySelector('.apply-filters');
+            const sortSelect = document.getElementById('sort-by');
+            const itemsPerPageSelect = document.getElementById('items-per-page');
+            
+            // Active filters
+            const activeFilters = {
+                discount: [],
+                category: []
+            };
+            
+            // Toggle filter options
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    
+                    const filterType = this.getAttribute('data-filter');
+                    const filterValue = this.getAttribute('data-value');
+                    
+                    if (this.classList.contains('active')) {
+                        // Add to active filters
+                        if (!activeFilters[filterType].includes(filterValue)) {
+                            activeFilters[filterType].push(filterValue);
+                        }
+                    } else {
+                        // Remove from active filters
+                        const index = activeFilters[filterType].indexOf(filterValue);
+                        if (index > -1) {
+                            activeFilters[filterType].splice(index, 1);
+                        }
+                    }
+                });
+            });
+            
+            // Apply filters
+            applyFiltersBtn.addEventListener('click', function() {
+                const minPrice = document.getElementById('min-price').value;
+                const maxPrice = document.getElementById('max-price').value;
+                
+                saleCards.forEach(card => {
+                    const cardDiscount = card.getAttribute('data-discount');
+                    const cardCategory = card.getAttribute('data-category');
+                    const cardPrice = parseFloat(card.getAttribute('data-price'));
+                    
+                    let showCard = true;
+                    
+                    // Check discount filter
+                    if (activeFilters.discount.length > 0) {
+                        if (!activeFilters.discount.includes(cardDiscount)) {
+                            showCard = false;
+                        }
+                    }
+                    
+                    // Check category filter
+                    if (activeFilters.category.length > 0) {
+                        if (!activeFilters.category.includes(cardCategory)) {
+                            showCard = false;
+                        }
+                    }
+                    
+                    // Check price range
+                    if (minPrice && cardPrice < parseFloat(minPrice)) {
+                        showCard = false;
+                    }
+                    
+                    if (maxPrice && cardPrice > parseFloat(maxPrice)) {
+                        showCard = false;
+                    }
+                    
+                    // Show or hide card
+                    card.style.display = showCard ? 'block' : 'none';
+                });
+            });
+            
+            // Sort functionality
+            sortSelect.addEventListener('change', function() {
+                const sortValue = this.value;
+                const cardsArray = Array.from(saleCards);
+                
+                cardsArray.sort((a, b) => {
+                    if (sortValue === 'discount-high') {
+                        return parseInt(b.getAttribute('data-discount')) - parseInt(a.getAttribute('data-discount'));
+                    } else if (sortValue === 'discount-low') {
+                        return parseInt(a.getAttribute('data-discount')) - parseInt(b.getAttribute('data-discount'));
+                    } else if (sortValue === 'price-low') {
+                        return parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price'));
+                    } else if (sortValue === 'price-high') {
+                        return parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price'));
+                    } else if (sortValue === 'name-asc') {
+                        return a.querySelector('.sale-title').textContent.localeCompare(b.querySelector('.sale-title').textContent);
+                    } else if (sortValue === 'name-desc') {
+                        return b.querySelector('.sale-title').textContent.localeCompare(a.querySelector('.sale-title').textContent);
+                    }
+                });
+                
+                const saleGrid = document.querySelector('.sale-grid');
+                cardsArray.forEach(card => {
+                    saleGrid.appendChild(card);
+                });
+            });
+            
+            // Items per page functionality
+            itemsPerPageSelect.addEventListener('change', function() {
+                const itemsPerPage = parseInt(this.value);
+                let count = 0;
+                
+                saleCards.forEach(card => {
+                    count++;
+                    if (count <= itemsPerPage) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Pagination functionality
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    paginationLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // In a real application, this would load the next page of items
+                    // For this demo, we'll just scroll to the top of the sale section
+                    document.querySelector('.sale-section').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
