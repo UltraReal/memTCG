@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - MemeTCG</title>
+    <title>Contact Us - memTCG</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile-new.css">
+    <link rel="stylesheet" href="css/navbar-fix.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="js/script.js" defer></script>
+    <script src="js/script-new.js" defer></script>
     <script src="js/cart.js" defer></script>
+    <script src="js/navbar-fix-final.js" defer></script>
     <style>
         /* Additional styles for contact page */
         .contact-section {
@@ -169,7 +172,8 @@
     </style>
 </head>
 <body>
-    <header>
+    <div class="page-content">
+        <header>
         <div class="container">
             <div class="logo">
                 <a href="index.html">
@@ -257,7 +261,7 @@
                                 </div>
                                 <div class="contact-text">
                                     <h4>Our Location</h4>
-                                    <p>Damstraat 21, 1012 JS<br>Amsterdam, Netherlands</p>
+                                    <p>Noorderlicht 112<br>1622 ZW Hoorn, Netherlands</p>
                                 </div>
                             </div>
                             <div class="contact-detail">
@@ -266,8 +270,7 @@
                                 </div>
                                 <div class="contact-text">
                                     <h4>Phone Number</h4>
-                                    <p>+31 123 456 789</p>
-                                    <p>+31 987 654 321</p>
+                                    <p>+31 62871 77 83</p>
                                 </div>
                             </div>
                             <div class="contact-detail">
@@ -276,8 +279,7 @@
                                 </div>
                                 <div class="contact-text">
                                     <h4>Email Address</h4>
-                                    <p>info@memetcg.nl</p>
-                                    <p>support@memetcg.nl</p>
+                                    <p>info@memtcg.nl</p>
                                 </div>
                             </div>
                             <div class="contact-detail">
@@ -289,6 +291,16 @@
                                     <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
                                     <p>Saturday: 10:00 AM - 4:00 PM</p>
                                     <p>Sunday: Closed</p>
+                                </div>
+                            </div>
+                            <div class="contact-detail">
+                                <div class="contact-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <h4>Company Information</h4>
+                                    <p>KvK: 68566719</p>
+                                    <p>BTW: NL002102782B26</p>
                                 </div>
                             </div>
                         </div>
@@ -330,7 +342,7 @@
                 </div>
             </div>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2436.5481423220323!2d4.8906842!3d52.3702157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c609c70d9f5d05%3A0xd178c0e0a6f0a0f0!2sDamstraat%2C%20Amsterdam!5e0!3m2!1sen!2snl!4v1620123456789!5m2!1sen!2snl" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2421.2108512372584!2d5.0598689!3d52.6428344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c8a86c7b0f6c91%3A0x2a0a0c5c0e7bbc60!2sNoorderlicht%20112%2C%201622%20ZW%20Hoorn!5e0!3m2!1sen!2snl!4v1620123456789!5m2!1sen!2snl" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
@@ -340,10 +352,11 @@
             <div class="newsletter-content">
                 <h2>Join Our Newsletter</h2>
                 <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email address" required>
+                <form id="newsletter-form" class="newsletter-form">
+                    <input type="email" id="newsletter-email" placeholder="Your email address" required>
                     <button type="submit" class="btn">Subscribe</button>
                 </form>
+                <div id="newsletter-message" style="margin-top: 15px; display: none;"></div>
             </div>
         </div>
     </section>
@@ -387,9 +400,11 @@
                 <div class="footer-column">
                     <h3>Contact Us</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
-                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
-                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Noorderlicht 112, 1622 ZW Hoorn</li>
+                        <li><i class="fas fa-phone"></i> +31 62871 77 83</li>
+                        <li><i class="fas fa-envelope"></i> info@memtcg.nl</li>
+                        <li><i class="fas fa-building"></i> KvK: 68566719</li>
+                        <li><i class="fas fa-receipt"></i> BTW: NL002102782B26</li>
                     </ul>
                     <div class="payment-methods">
                         <img src="images/payment-methods.svg" alt="Payment Methods">
@@ -397,10 +412,11 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+                <p>&copy; 2025 memTCG. All rights reserved.</p>
             </div>
         </div>
     </footer>
+    </div> <!-- End of page-content -->
 
     <div class="overlay" id="overlay"></div>
 
@@ -437,4 +453,3 @@
     </script>
 </body>
 </html>
-

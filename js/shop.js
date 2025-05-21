@@ -102,6 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+        
+        // Add resize event listener to adjust layout for mobile
+        window.addEventListener('resize', function() {
+            // Reapply filters and update display when window is resized
+            updateProductsDisplay();
+        });
     }
 
     // Apply URL parameters on page load
@@ -244,12 +250,39 @@ document.addEventListener('DOMContentLoaded', function() {
         filteredProducts.forEach(product => {
             if (product.element) {
                 product.element.style.display = '';
+                
+                // Ensure images are properly sized for mobile
+                const img = product.element.querySelector('.product-image img');
+                if (img) {
+                    img.style.maxWidth = '100%';
+                    img.style.height = 'auto';
+                    img.style.objectFit = 'contain';
+                }
+                
+                // Ensure text is properly sized for mobile
+                const title = product.element.querySelector('.product-info h3');
+                if (title && window.innerWidth <= 576) {
+                    title.style.fontSize = '1rem';
+                    title.style.lineHeight = '1.3';
+                }
             }
         });
         
         // Update results count
         if (resultsCount) {
             resultsCount.textContent = `Showing ${filteredProducts.length} of ${products.length} products`;
+        }
+        
+        // Check if we're on mobile and adjust view accordingly
+        if (window.innerWidth <= 576) {
+            // On mobile, default to grid view for better display
+            const gridViewOption = document.querySelector('.view-option .fa-th');
+            if (gridViewOption) {
+                const gridViewButton = gridViewOption.closest('.view-option');
+                if (gridViewButton && !gridViewButton.classList.contains('active')) {
+                    gridViewButton.click();
+                }
+            }
         }
     }
 

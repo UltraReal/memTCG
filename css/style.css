@@ -25,11 +25,29 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--light-color);
+}
+
+.page-content {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    flex-shrink: 0;
 }
 
 .container {
@@ -107,13 +125,14 @@ img {
     background-color: var(--primary-color);
 }
 
-/* Header Styles */
+/* Enhanced Header Styles */
 header {
     background-color: var(--light-color);
     box-shadow: var(--box-shadow);
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: all 0.3s ease;
 }
 
 header .container {
@@ -122,6 +141,9 @@ header .container {
     align-items: center;
     padding: 15px 20px;
     position: relative;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .logo {
@@ -143,19 +165,25 @@ header .container {
     display: flex;
     position: relative;
     z-index: 2;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease;
 }
 
 .main-menu li {
     margin: 0 15px;
     position: relative;
+    transition: all 0.3s ease;
 }
 
 .main-menu a {
     color: var(--text-color);
     font-weight: 500;
-    padding: 5px 0;
+    padding: 10px 0;
     position: relative;
     display: block;
+    transition: all 0.3s ease;
 }
 
 .main-menu a::after {
@@ -209,13 +237,14 @@ header .container {
     width: 220px;
     background-color: var(--light-color);
     box-shadow: var(--box-shadow);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 10px 0;
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     z-index: 99;
+    border-top: 3px solid var(--primary-color);
 }
 
 .dropdown-menu.active,
@@ -228,28 +257,30 @@ header .container {
 .dropdown-menu li {
     margin: 0;
     width: 100%;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.dropdown-menu li:last-child {
+    border-bottom: none;
 }
 
 .dropdown-menu a {
-    padding: 10px 20px;
+    padding: 12px 20px;
     color: var(--text-color);
     font-weight: 500;
-    transition: var(--transition);
-    border-left: 0 solid var(--primary-color);
-    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-size: 0.95rem;
 }
 
 .dropdown-menu a:hover {
     background-color: var(--primary-light);
     color: var(--primary-color);
-    padding-left: 25px;
-    border-left: 4px solid var(--primary-color);
 }
 
 .dropdown-menu a.active {
     background-color: var(--primary-light);
     color: var(--primary-color);
-    border-left: 4px solid var(--primary-color);
 }
 
 .dropdown-menu a::after {

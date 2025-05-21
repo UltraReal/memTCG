@@ -1,0 +1,141 @@
+/* 
+ * Navbar Fix - Definitieve oplossing voor het hamburger menu
+ * Deze CSS zorgt voor een perfect werkend en mooi hamburger menu
+ */
+
+/* Basis styling voor mobiele navigatie */
+@media (max-width: 992px) {
+    /* Container voor de header */
+    header .container {
+        position: relative;
+        padding: 15px;
+    }
+    
+    /* Hamburger menu knop */
+    .mobile-menu-toggle {
+        display: block;
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1001;
+    }
+    
+    .mobile-menu-toggle i {
+        font-size: 1.5rem;
+    }
+    
+    /* Navigatie container */
+    nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        z-index: 1000;
+        border-radius: 0 0 8px 8px;
+        padding: 0;
+        margin: 0;
+    }
+    
+    /* Hoofdmenu */
+    .main-menu {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Menu items */
+    .main-menu > li {
+        display: block;
+        margin: 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .main-menu > li:last-child {
+        border-bottom: none;
+    }
+    
+    /* Menu links */
+    .main-menu > li > a {
+        display: block;
+        padding: 15px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .main-menu > li > a:hover {
+        color: var(--primary-color);
+        background-color: #f9f9f9;
+    }
+    
+    /* Dropdown menu's */
+    .dropdown-menu {
+        display: none;
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        background-color: #f9f9f9;
+        padding: 0;
+        margin: 0;
+    }
+    
+    /* Dropdown items */
+    .dropdown-menu li {
+        border-bottom: none;
+    }
+    
+    .dropdown-menu a {
+        padding: 12px 20px 12px 40px;
+        display: block;
+        color: #555;
+        transition: all 0.3s ease;
+    }
+    
+    .dropdown-menu a:hover {
+        background-color: #f0f0f0;
+        color: var(--primary-color);
+        padding-left: 45px;
+    }
+    
+    /* Actieve staten */
+    .main-menu > li > a.active {
+        color: var(--primary-color);
+        background-color: #f5f5f5;
+        font-weight: 600;
+    }
+    
+    .dropdown-menu.active {
+        display: block;
+    }
+    
+    /* Dropdown pijltjes */
+    .main-menu > li.has-dropdown > a {
+        position: relative;
+        padding-right: 40px;
+    }
+    
+    .main-menu > li.has-dropdown > a:after {
+        content: '\f107';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .main-menu > li.has-dropdown > a.active:after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+}

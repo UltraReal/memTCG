@@ -2,61 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MemTCG - Pokémon Cards Shop</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/mobile-new.css">
+    <link rel="stylesheet" href="css/navbar-fix.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="js/script-new.js" defer></script>
     <script src="js/cart.js" defer></script>
     <script src="js/cart-sidebar.js" defer></script>
+    <script src="js/navbar-fix.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="images/logo.svg" alt="memTCG Logo">
-                </a>
-            </div>
-            <nav>
-                <ul class="main-menu">
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li>
-                        <a href="shop.html">Shop</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
-                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
-                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
-                            <li><a href="shop.html?category=collections">Special Collections</a></li>
-                            <li><a href="shop.html?category=accessories">Accessories</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="new-releases.html">New Releases</a></li>
-                    <li>
-                        <a href="promotions.html">Promotions</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
-                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
-                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="header-icons">
-                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
-                <div class="cart-icon" id="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
+    <div class="page-content">
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </a>
+                </div>
+                <nav>
+                    <ul class="main-menu">
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li>
+                            <a href="shop.html">Shop</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                                <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                                <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                                <li><a href="shop.html?category=collections">Special Collections</a></li>
+                                <li><a href="shop.html?category=accessories">Accessories</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li>
+                            <a href="promotions.html">Promotions</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                                <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                                <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="header-icons">
+                    <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                    <div class="cart-icon" id="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
                 </div>
             </div>
-            <div class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-    </header>
+        </header>
 
     <div class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
@@ -203,13 +206,15 @@
             <div class="newsletter-content">
                 <h2>Join Our Newsletter</h2>
                 <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email address" required>
+                <form id="newsletter-form" class="newsletter-form">
+                    <input type="email" id="newsletter-email" placeholder="Your email address" required>
                     <button type="submit" class="btn">Subscribe</button>
                 </form>
+                <div id="newsletter-message" style="margin-top: 15px; display: none; text-align: center;"></div>
             </div>
         </div>
     </section>
+    </div> <!-- End of page-content -->
 
     <footer>
         <div class="container">
@@ -250,9 +255,11 @@
                 <div class="footer-column">
                     <h3>Contact Us</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
-                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
-                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Noorderlicht 112, 1622 ZW Hoorn</li>
+                        <li><i class="fas fa-phone"></i> +31 62871 77 83</li>
+                        <li><i class="fas fa-envelope"></i> info@memtcg.nl</li>
+                        <li><i class="fas fa-building"></i> KvK: 68566719</li>
+                        <li><i class="fas fa-receipt"></i> BTW: NL002102782B26</li>
                     </ul>
                     <div class="payment-methods">
                         <img src="images/payment-methods.svg" alt="Payment Methods">
@@ -260,7 +267,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+                <p>&copy; 2025 memTCG. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -268,4 +275,3 @@
     <div class="overlay" id="overlay"></div>
 </body>
 </html>
-

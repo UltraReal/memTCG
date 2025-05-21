@@ -1,66 +1,52 @@
 // Main JavaScript file for MemTCG website
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
+    // Basic mobile menu toggle
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const nav = document.querySelector('nav');
     
-    if (mobileMenuToggle) {
+    if (mobileMenuToggle && nav) {
         mobileMenuToggle.addEventListener('click', function() {
             nav.classList.toggle('active');
-            this.classList.toggle('active');
         });
     }
     
-    // Dropdown menu functionality
-    const menuItems = document.querySelectorAll('.main-menu li');
+    // Add has-dropdown class to menu items with dropdowns
+    const menuItems = document.querySelectorAll('.main-menu > li');
     
     menuItems.forEach(item => {
-        if (item.querySelector('.dropdown-menu')) {
+        const dropdown = item.querySelector('.dropdown-menu');
+        if (dropdown) {
             item.classList.add('has-dropdown');
             
             // For desktop hover
             item.addEventListener('mouseenter', function() {
                 if (window.innerWidth >= 992) {
-                    this.querySelector('.dropdown-menu').classList.add('active');
+                    dropdown.classList.add('active');
                 }
             });
             
             item.addEventListener('mouseleave', function() {
                 if (window.innerWidth >= 992) {
-                    this.querySelector('.dropdown-menu').classList.remove('active');
+                    dropdown.classList.remove('active');
                 }
             });
             
             // For mobile touch
             const link = item.querySelector('a');
             
-            // Handle click on parent menu items with dropdowns
-            link.addEventListener('click', function(e) {
-                if (window.innerWidth < 992) {
-                    // If this link has a dropdown menu, prevent default action and toggle dropdown
-                    if (this.nextElementSibling && this.nextElementSibling.classList.contains('dropdown-menu')) {
-                        e.preventDefault();
-                        const dropdown = this.nextElementSibling;
-                        
-                        // Close all other dropdowns and reset active links
-                        menuItems.forEach(otherItem => {
-                            if (otherItem !== item && otherItem.querySelector('.dropdown-menu.active')) {
-                                otherItem.querySelector('.dropdown-menu').classList.remove('active');
-                                if (otherItem.querySelector('a.active')) {
-                                    otherItem.querySelector('a').classList.remove('active');
-                                }
-                            }
-                        });
-                        
-                        // Toggle this dropdown
-                        dropdown.classList.toggle('active');
-                        
-                        // Toggle active class on the link for arrow animation
-                        this.classList.toggle('active');
+            if (link) {
+                link.addEventListener('click', function(e) {
+                    if (window.innerWidth < 992) {
+                        // If this link has a dropdown menu, prevent default action and toggle dropdown
+                        if (dropdown) {
+                            e.preventDefault();
+                            dropdown.classList.toggle('active');
+                            this.classList.toggle('active');
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     });
 
@@ -127,6 +113,20 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.add('active');
         } else if (currentLocation.endsWith('/') && linkPath === 'index.html') {
             link.classList.add('active');
+        }
+    });
+    
+    // Add window resize event listener
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 992) {
+            // Close mobile menu on larger screens
+            const nav = document.querySelector('nav');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (nav && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+                if (mobileMenuToggle) mobileMenuToggle.classList.remove('active');
+            }
         }
     });
 });

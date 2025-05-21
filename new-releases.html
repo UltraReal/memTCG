@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Releases - MemeTCG</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile-new.css">
+    <link rel="stylesheet" href="css/navbar-fix.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="js/script.js" defer></script>
+    <script src="js/script-new.js" defer></script>
     <script src="js/cart.js" defer></script>
+    <script src="js/navbar-fix-final.js" defer></script>
     <style>
         /* Additional styles for new releases page */
         .new-releases-section {
@@ -342,7 +345,8 @@
     </style>
 </head>
 <body>
-    <header>
+    <div class="page-content">
+        <header>
         <div class="container">
             <div class="logo">
                 <a href="index.html">
@@ -642,10 +646,11 @@
             <div class="newsletter-content">
                 <h2>Join Our Newsletter</h2>
                 <p>Subscribe to receive updates on new arrivals, special offers and other discount information.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email address" required>
+                <form id="newsletter-form" class="newsletter-form">
+                    <input type="email" id="newsletter-email" placeholder="Your email address" required>
                     <button type="submit" class="btn">Subscribe</button>
                 </form>
+                <div id="newsletter-message" style="margin-top: 15px; display: none; text-align: center;"></div>
             </div>
         </div>
     </section>
@@ -689,9 +694,11 @@
                 <div class="footer-column">
                     <h3>Contact Us</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> Amsterdam, Netherlands</li>
-                        <li><i class="fas fa-phone"></i> +31 123 456 789</li>
-                        <li><i class="fas fa-envelope"></i> info@memetcg.nl</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Noorderlicht 112, 1622 ZW Hoorn</li>
+                        <li><i class="fas fa-phone"></i> +31 62871 77 83</li>
+                        <li><i class="fas fa-envelope"></i> info@memtcg.nl</li>
+                        <li><i class="fas fa-building"></i> KvK: 68566719</li>
+                        <li><i class="fas fa-receipt"></i> BTW: NL002102782B26</li>
                     </ul>
                     <div class="payment-methods">
                         <img src="images/payment-methods.svg" alt="Payment Methods">
@@ -699,10 +706,11 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 MemeTCG. All Rights Reserved.</p>
+                <p>&copy; 2025 memTCG. All rights reserved.</p>
             </div>
         </div>
     </footer>
+    </div> <!-- End of page-content -->
 
     <div class="overlay" id="overlay"></div>
 
@@ -796,4 +804,3 @@
     </script>
 </body>
 </html>
-

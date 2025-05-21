@@ -81,18 +81,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Newsletter form submission
-    const newsletterForm = document.querySelector('.newsletter-form');
+    const newsletterForm = document.getElementById('newsletter-form');
+    const newsletterMessage = document.getElementById('newsletter-message');
     
     if (newsletterForm) {
         newsletterForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const emailInput = this.querySelector('input[type="email"]');
+            const emailInput = document.getElementById('newsletter-email');
             const email = emailInput.value.trim();
             
-            if (email) {
+            if (email && newsletterMessage) {
                 // Here you would typically send this to your backend
-                alert(`Thank you for subscribing with ${email}! You'll receive our newsletter soon.`);
+                // For now, we'll just show a success message
+                newsletterMessage.textContent = `Thank you for subscribing! You'll receive our newsletter from info@memtcg.nl soon.`;
+                newsletterMessage.style.display = 'block';
+                newsletterMessage.style.color = '#2ecc71';
+                newsletterMessage.style.fontWeight = 'bold';
+                
+                // Reset form
                 emailInput.value = '';
+                
+                // Hide message after 5 seconds
+                setTimeout(function() {
+                    newsletterMessage.style.display = 'none';
+                }, 5000);
             }
         });
     }

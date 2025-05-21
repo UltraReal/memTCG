@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Details - MemTCG</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/mobile-new.css">
+    <link rel="stylesheet" href="css/navbar-fix.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="js/script-new.js" defer></script>
     <script src="js/cart.js" defer></script>
     <script src="js/view-card.js" defer></script>
     <script src="js/cart-sidebar.js" defer></script>
+    <script src="js/navbar-fix.js" defer></script>
     <style>
         /* Card Details Page Styles */
         .card-details-container {
@@ -247,51 +249,52 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="images/logo.svg" alt="memTCG Logo">
-                </a>
-            </div>
-            <nav>
-                <ul class="main-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li>
-                        <a href="shop.html">Shop</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="shop.html?category=single-cards">Single Cards</a></li>
-                            <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
-                            <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
-                            <li><a href="shop.html?category=collections">Special Collections</a></li>
-                            <li><a href="shop.html?category=accessories">Accessories</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="new-releases.html">New Releases</a></li>
-                    <li>
-                        <a href="promotions.html">Promotions</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="promotions.html?type=sale">Sale Items</a></li>
-                            <li><a href="promotions.html?type=clearance">Clearance</a></li>
-                            <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="header-icons">
-                <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
-                <div class="cart-icon" id="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
+    <div class="page-content">
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="images/logo.svg" alt="memTCG Logo">
+                    </a>
+                </div>
+                <nav>
+                    <ul class="main-menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li>
+                            <a href="shop.html">Shop</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="shop.html?category=single-cards">Single Cards</a></li>
+                                <li><a href="shop.html?category=booster-packs">Booster Packs</a></li>
+                                <li><a href="shop.html?category=elite-boxes">Elite Trainer Boxes</a></li>
+                                <li><a href="shop.html?category=collections">Special Collections</a></li>
+                                <li><a href="shop.html?category=accessories">Accessories</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                        <li>
+                            <a href="promotions.html">Promotions</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="promotions.html?type=sale">Sale Items</a></li>
+                                <li><a href="promotions.html?type=clearance">Clearance</a></li>
+                                <li><a href="promotions.html?type=bundle">Bundle Deals</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="header-icons">
+                    <a href="account.html" class="account-icon"><i class="fas fa-user"></i></a>
+                    <div class="cart-icon" id="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
                 </div>
             </div>
-            <div class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-    </header>
+        </header>
 
     <div class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
@@ -577,6 +580,7 @@
             </div>
         </div>
     </section>
+    </div> <!-- End of page-content -->
 
     <footer>
         <div class="container">
@@ -623,7 +627,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 MemTCG. All rights reserved.</p>
+                <p>&copy; 2025 MemTCG. All rights reserved.</p>
                 <div class="payment-methods">
                     <i class="fab fa-cc-visa"></i>
                     <i class="fab fa-cc-mastercard"></i>
